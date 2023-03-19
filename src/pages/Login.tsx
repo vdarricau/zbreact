@@ -1,7 +1,20 @@
-import { useState, FormEvent } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../api/api";
+import { useAuth } from "../hooks/useAuth";
+import { User } from "../hooks/useUser";
 
 const Login = () => {
+    const { isAuthenticated, login } = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            return navigate('/');
+        }
+    }, []);
+    
+
     const handleSubmit = async (e: React.SyntheticEvent) => {
         // Prevent the browser from reloading the page
         e.preventDefault();
@@ -10,21 +23,20 @@ const Login = () => {
           email: { value: string };
           password: { value: string };
         };
-
+        
         // @TODO try/catch
         const response = await api.post('/login', {
             email: target.email.value,
             password: target.password.value
         });
 
-        const user = response.data.user as typeof response.data.user & {
-            email: string,
-            id: string,
-            name: string,
-        };
-        const token = response.data.token;
-    
-        console.log(response);
+        const user = response.data.user as typeof response.data.user & User;
+
+        user.authToken = response.data.token;
+
+        login(user);
+
+        navigate('/');
       }
 
     return (
