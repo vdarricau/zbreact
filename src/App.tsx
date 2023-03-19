@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './App.css';
 import Body from './Body';
+import NavComponent from './components/NavComponent';
 import { AuthContext } from './context/AuthContext';
 import { User } from './hooks/useUser';
 
@@ -11,11 +11,8 @@ function App() {
 
   return (
     <AuthContext.Provider value={value}>
+      <NavComponent />
       <div className="App">
-        <ul>
-          <li><Link to={'/'}>Home</Link></li>
-          <li><Link to={'/friends'}>Friends</Link></li>
-        </ul>
         <Body />
       </div>
     </AuthContext.Provider>

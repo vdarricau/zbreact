@@ -1,8 +1,8 @@
 # Zbra React
 
-Uses Vite 4, and maybe [Zustand](https://github.com/pmndrs/zustand)?
+Uses Vite 4, Chakra UI and maybe [Zustand](https://github.com/pmndrs/zustand)?
 
-ALso maybe [postcss](https://github.com/csstools/postcss-plugins)
+Also maybe [postcss](https://github.com/csstools/postcss-plugins) (probably not)
 
 ```bash
 npm install
@@ -13,3 +13,5 @@ npn run dev
 ```
 
 Access http://localhost:5173/
+
+You need to run the API on localhost:8000.
