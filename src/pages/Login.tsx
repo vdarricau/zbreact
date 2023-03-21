@@ -27,7 +27,7 @@ const Login = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (isAuthenticated) {
+        if (isAuthenticated()) {
             return navigate('/');
         }
     }, []);
