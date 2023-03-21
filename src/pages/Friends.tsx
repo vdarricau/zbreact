@@ -1,17 +1,11 @@
-import { Box, Badge, Container, Grid, GridItem, Heading, Image, SimpleGrid, Stack, Button, useDisclosure } from "@chakra-ui/react";
 import {
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
-  } from '@chakra-ui/react'
+    Badge, Box, Button, Container, Heading, Image, Modal, ModalBody,
+    ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, SimpleGrid, Stack, useDisclosure
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import api from "../api/api";
+import avatar from "../assets/avatar.png";
 import { useAuth } from "../hooks/useAuth";
-import avatar from "../assets/avatar.png"
 
 export interface Friend {
     id: string;
