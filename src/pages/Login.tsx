@@ -1,8 +1,6 @@
 import {
     Box,
-    Button,
-    Checkbox,
-    Container,
+    Button, Container,
     FormControl,
     FormErrorMessage,
     FormLabel,
@@ -12,25 +10,18 @@ import {
     Stack,
     Text
 } from '@chakra-ui/react';
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useSignIn } from 'react-auth-kit';
 import { useNavigate } from "react-router-dom";
 import api from "../api/api";
-import { useAuth } from "../hooks/useAuth";
-import { User } from "../hooks/useUser";
 import { Logo } from '../components/Logo';
 import { PasswordField } from '../components/PasswordField';
 
 const Login = () => {
-    const { isAuthenticated, login } = useAuth();
+    const signIn = useSignIn();
     const [ isSubmitting, setIsSubmitting ] = useState<boolean>(false);
     const [ error, setError ] = useState<string|null>(null);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        if (isAuthenticated()) {
-            return navigate('/');
-        }
-    }, []);
     
 
     const handleSubmit = async (e: React.SyntheticEvent) => {
@@ -51,11 +42,16 @@ const Login = () => {
                 password: target.password.value
             });
 
-            const user = response.data.user as typeof response.data.user & User;
-            user.authToken = response.data.token;
-
-            login(user);
-            navigate('/');
+            if(signIn({
+                token: response.data.token,
+                expiresIn: 3600,
+                tokenType: "Bearer",
+                authState: { user: response.data.user },
+            })) {
+                navigate('/');
+            } else {
+                //Throw error
+            }
         } catch (error) {
             setError("Hey Zbro, it seems that you f*cked up your creds. Try your dog's name.");
             setIsSubmitting(false);

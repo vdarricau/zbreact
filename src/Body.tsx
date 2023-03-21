@@ -3,6 +3,7 @@ import Home from './pages/Home';
 import Friends from './pages/Friends';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
+import { RequireAuth } from 'react-auth-kit'
 
 const Body = () => {
     return (
@@ -10,7 +11,7 @@ const Body = () => {
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/logout' element={<Logout />} />
-            <Route path='/zbros' element={<Friends />} />
+            <Route path='/zbros' element={<RequireAuth loginPath='/login'><Friends /></RequireAuth>} />
         </Routes>
     );
 }

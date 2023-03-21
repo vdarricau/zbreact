@@ -3,28 +3,22 @@ import {
     ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, SimpleGrid, Stack, useDisclosure
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { useAuthHeader } from 'react-auth-kit';
+import Friend from "../@ts/Friend";
 import api from "../api/api";
 import avatar from "../assets/avatar.png";
-import { useAuth } from "../hooks/useAuth";
-
-export interface Friend {
-    id: string;
-    username: string;
-    name: string;
-    avatar?: string;
-}
 
 const Friends = () => {
-    const { user } = useAuth();
     const [ friends, setFriends ] = useState<Array<Friend>>([]);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [ friend, setFriend ] = useState<Friend|null>(null);
+    const authHeader = useAuthHeader();
 
     const getFriends = async () => {
         try {
             const response = await api.get('/friends', {
                 headers: {
-                    Authorization: 'Bearer ' + user?.authToken,
+                    Authorization: authHeader(),
                 }
             });
 

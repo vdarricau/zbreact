@@ -5,25 +5,29 @@ import {
   useColorMode, useColorModeValue
 } from '@chakra-ui/react';
 import { ReactNode } from 'react';
-import { useAuth } from '../hooks/useAuth';
-import { User } from '../hooks/useUser';
+import { useAuthUser, useIsAuthenticated } from 'react-auth-kit';
+import {
+  Link as RouteLink
+} from "react-router-dom";
+import User from '../@ts/User';
 
 const NavLink = ({ children, link }: { children: ReactNode, link: string }) => (
-  <Link
-    px={2}
-    py={2}
-    rounded={'md'}
-    _hover={{
-      textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
-    }}
-    href={link}>
-    {children}
-  </Link>
+  <RouteLink to={link}>
+    <Button
+      px={2}
+      py={2}
+      rounded={'md'}
+      _hover={{
+        textDecoration: 'none',
+        bg: useColorModeValue('gray.200', 'gray.700'),
+      }}
+    >
+      {children}
+    </Button>
+  </RouteLink>
 );
 
 const NavUser = ({ isAuthenticated, user }: { isAuthenticated: boolean, user: User|null }) => {
-
   if (false === isAuthenticated) {
     return (
       <>
@@ -77,8 +81,9 @@ const NavUser = ({ isAuthenticated, user }: { isAuthenticated: boolean, user: Us
 
 export default function NavComponent() {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isAuthenticated, user } = useAuth();
-  
+  const isAuthenticated = useIsAuthenticated();
+  const user = useAuthUser()() as User|null;
+
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
