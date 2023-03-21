@@ -91,8 +91,7 @@ export default function NavComponent() {
                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button>
 
-              <NavUser isAuthenticated={isAuthenticated} user={user} />
-               
+              <NavUser isAuthenticated={isAuthenticated()} user={user} />
             </Stack>
           </Flex>
         </Flex>
