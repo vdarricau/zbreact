@@ -9,7 +9,6 @@ const FriendItem = ({ children, friend }: { children: ReactNode, friend: Friend 
             direction="row"
             alignItems="center"
             justifyContent="space-between"
-            borderY="1px solid white"
         >
             <Image 
                 src={friend.avatar ? friend.avatar : avatar} 
