@@ -48,7 +48,7 @@ const Login = () => {
                 tokenType: "Bearer",
                 authState: { user: response.data.user },
             })) {
-                navigate('/');
+                navigate('/zbros');
             } else {
                 //Throw error
             }
@@ -86,7 +86,7 @@ const Login = () => {
                                 <Stack spacing="5">
                                     <FormControl isInvalid={error !== null}>
                                         <FormLabel htmlFor="email">Email</FormLabel>
-                                        <Input id="email" type="email" required />
+                                        <Input id="email" type="email" required value="test@example.com"/>
                                         <FormErrorMessage>
                                             {error}
                                         </FormErrorMessage>
