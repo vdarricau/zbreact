@@ -46,9 +46,9 @@ const Login = () => {
                 token: response.data.token,
                 expiresIn: 3600,
                 tokenType: "Bearer",
-                authState: { user: response.data.user },
+                authState: response.data.user,
             })) {
-                navigate('/zbros');
+                navigate('/');
             } else {
                 //Throw error
             }

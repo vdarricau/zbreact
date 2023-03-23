@@ -1,5 +1,6 @@
 import {
-    Box, Button, Container, Heading, Modal, ModalBody,
+    Box, Button, Container, FormControl,
+    FormLabel, Heading, Input, Modal, ModalBody,
     ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, SimpleGrid, useDisclosure, useToast
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -10,6 +11,7 @@ import api from "../api/api";
 import FriendItem from "../components/FriendItem";
 
 const Friends = () => {
+    const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ friends, setFriends ] = useState<Array<Friend>>([]);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [ friend, setFriend ] = useState<Friend|null>(null);
@@ -65,6 +67,38 @@ const Friends = () => {
         }
     }
 
+    const handleSubmitSendZbra = async (e: React.SyntheticEvent) => {
+        e.preventDefault();
+
+        setIsLoading(true);
+        // setError(null);
+
+        const target = e.target as typeof e.target & {
+          friendId: { value: string };
+          message: { value: string };
+        };
+        
+        try {
+            const response = await api.post('/zbras', {
+                friendId: target.friendId.value,
+                message: target.message.value
+            }, {
+                headers: {
+                    Authorization: authHeader(),
+                }
+            });
+
+            setIsLoading(false);
+            onClose();
+            toast({
+                title: `!ZBRA!`,
+                status: 'success'
+            })
+        } catch (error) {
+
+        }
+    }
+
     const openSendZbraModal = (friend: Friend) => {
         setFriend(friend);
         onOpen();
@@ -80,10 +114,10 @@ const Friends = () => {
             <Container>
                 { friendRequests.length !== 0 ?  
                     <Box py={5}>
-                        <Heading as='h1' size='2xl' noOfLines={1}>
+                        <Heading as='h1' size='2xl' marginBottom="3">
                             Future Zbros
                         </Heading>
-                        <SimpleGrid minChildWidth='320px'>
+                        <Box>
                             { friendRequests.map((friendRequest) => {
                                 return (
                                     <FriendItem friend={friendRequest.requester} key={friendRequest.id}>
@@ -91,12 +125,12 @@ const Friends = () => {
                                     </FriendItem>
                                 )
                             })}
-                        </SimpleGrid>
+                        </Box>
                     </Box>
                 : null }
                     { friends.length !== 0 ?  
                     <Box py={5}>
-                        <Heading as='h1' size='2xl' noOfLines={1}>
+                        <Heading as='h1' size='2xl' marginBottom="3">
                             OGs
                         </Heading>
                         <SimpleGrid minChildWidth='320px'>
@@ -116,15 +150,29 @@ const Friends = () => {
                     <ModalContent>
                         <ModalHeader>Send Zbra to "{friend?.username}"</ModalHeader>
                         <ModalCloseButton />
-                        <ModalBody>
-                            Can't send a Zbra yet sorry zbro
-                        </ModalBody>
 
-                        <ModalFooter>
-                            <Button colorScheme='blue' mr={3} onClick={onClose}>
-                                Close
-                            </Button>
-                        </ModalFooter>
+                        <form method="post" onSubmit={handleSubmitSendZbra}>
+                            <ModalBody>
+                                <Input id="friendId" type="hidden" value={friend?.id} />
+                                <FormControl isRequired>
+                                    <FormLabel>Zbra</FormLabel>
+                                    <Input id="message" placeholder='a-ZBRA-cada-ZBRA' defaultValue="a-ZBRA-cada-ZBRA" /> {/* TODO randomize this */}
+                                </FormControl>
+                            </ModalBody>
+
+                            <ModalFooter>
+                                <Button 
+                                    variant="solid"
+                                    type="submit"
+                                    colorScheme="orange"
+                                    isLoading={isLoading}
+                                    mr="2"
+                                >ZBRA!</Button>
+                                <Button colorScheme='blue' mr={3} onClick={onClose}>
+                                    Close
+                                </Button>
+                            </ModalFooter>
+                        </form>
                     </ModalContent>
                 </Modal>
             </Container>

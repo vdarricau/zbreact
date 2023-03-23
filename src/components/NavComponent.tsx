@@ -1,6 +1,6 @@
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import {
-  Avatar, Box, Button, Center, Flex, Link, Menu,
+  Avatar, Box, Button, Center, Container, Flex, Menu,
   MenuButton, MenuDivider, MenuItem, MenuList, Stack,
   useColorMode, useColorModeValue
 } from '@chakra-ui/react';
@@ -40,41 +40,43 @@ const NavUser = ({ isAuthenticated, user }: { isAuthenticated: boolean, user: Us
 
   return (
     <>
-      <NavLink link={'/zbros'}>
-        Zbros
-      </NavLink>
-
-        <Menu>
-          <MenuButton
-            as={Button}
-            rounded={'full'}
-            variant={'link'}
-            cursor={'pointer'}
-            minW={0}>
+      <Menu>
+        <MenuButton
+          as={Button}
+          rounded={'full'}
+          variant={'link'}
+          cursor={'pointer'}
+          minW={0}>
+          <Avatar
+            size={'sm'}
+            src={'https://avatars.dicebear.com/api/male/username.svg'}
+          />
+        </MenuButton>
+        <MenuList alignItems={'center'}>
+          <br />
+          <Center>
             <Avatar
-              size={'sm'}
+              size={'2xl'}
               src={'https://avatars.dicebear.com/api/male/username.svg'}
             />
-          </MenuButton>
-          <MenuList alignItems={'center'}>
-            <br />
-            <Center>
-              <Avatar
-                size={'2xl'}
-                src={'https://avatars.dicebear.com/api/male/username.svg'}
-              />
-            </Center>
-            <br />
-            <Center>
-              <p>{user?.email}</p>
-            </Center>
-            <br />
-            <MenuDivider />
-            <MenuItem>Your Servers</MenuItem>
-            <MenuItem>Account Settings</MenuItem>
-            <MenuItem as="a" href="/logout">Logout</MenuItem>
-          </MenuList>
-        </Menu>
+          </Center>
+          <br />
+          <Center>
+            <p>{user?.email}</p>
+          </Center>
+          <br />
+          <MenuDivider />
+          <RouteLink to="/zbros">
+            <MenuItem>Zbros</MenuItem>
+          </RouteLink>
+          <MenuItem>Account Settings</MenuItem>
+          <RouteLink to="/logout">
+            <MenuItem>
+              Logout
+            </MenuItem>
+          </RouteLink>
+        </MenuList>
+      </Menu>
     </>
   )
 }
@@ -85,22 +87,24 @@ export default function NavComponent() {
   const user = useAuthUser()() as User|null;
 
   return (
-    <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
-        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-          <Box>Zbra</Box>
+        <Container px="5">
+          <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+            <RouteLink to="/">
+              <Box>ZBRA</Box>
+            </RouteLink>
 
-          <Flex alignItems={'center'}>
-            <Stack direction={'row'} spacing={7}>
-              <Button onClick={toggleColorMode}>
-                {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-              </Button>
+            <Flex alignItems={'center'}>
+              <Stack direction={'row'} spacing={7}>
+                <Button onClick={toggleColorMode}>
+                  {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+                </Button>
 
-              <NavUser isAuthenticated={isAuthenticated()} user={user} />
-            </Stack>
+                <NavUser isAuthenticated={isAuthenticated()} user={user} />
+              </Stack>
+            </Flex>
           </Flex>
-        </Flex>
+        </Container>
       </Box>
-    </>
   );
 }

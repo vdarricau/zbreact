@@ -9,6 +9,10 @@ const FriendItem = ({ children, friend }: { children: ReactNode, friend: Friend 
             direction="row"
             alignItems="center"
             justifyContent="space-between"
+            _even={{ backgroundColor: 'orange'}}
+            _odd={{ backgroundColor: 'black'}}
+            px="2"
+            borderRadius="10"
         >
             <Image 
                 src={friend.avatar ? friend.avatar : avatar} 
@@ -17,9 +21,9 @@ const FriendItem = ({ children, friend }: { children: ReactNode, friend: Friend 
                 borderRadius="50"
             />
 
-            <Box p='6' marginRight="auto">
+            <Box p='6' flex="auto">
                 <Box display='flex' alignItems='baseline'>
-                    <Badge borderRadius='full' px='2' colorScheme='teal'>
+                    <Badge borderRadius='full' px='2' colorScheme='orange'>
                         New
                     </Badge>
                     &nbsp;
@@ -27,7 +31,7 @@ const FriendItem = ({ children, friend }: { children: ReactNode, friend: Friend 
                 </Box>
             </Box>
 
-            <Box p='6' justifySelf="end">
+            <Box p='6'>
                 {children}
             </Box>
         </Stack>
