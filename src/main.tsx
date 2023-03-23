@@ -1,9 +1,13 @@
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en.json'
 import React from 'react'
+import { AuthProvider } from 'react-auth-kit'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App'
-import { AuthProvider } from 'react-auth-kit'
+
+TimeAgo.addDefaultLocale(en)
 
 const colors = {
   brand: {},

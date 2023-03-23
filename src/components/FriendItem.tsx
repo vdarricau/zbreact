@@ -21,17 +21,17 @@ const FriendItem = ({ children, friend }: { children: ReactNode, friend: Friend 
                 borderRadius="50"
             />
 
-            <Box p='6' flex="auto">
+            <Box p="1" flex="auto">
                 <Box display='flex' alignItems='baseline'>
-                    <Badge borderRadius='full' px='2' colorScheme='orange'>
+                    {/* <Badge borderRadius='full' px='2' colorScheme='orange'>
                         New
-                    </Badge>
+                    </Badge> */}
                     &nbsp;
                     {friend.username}
                 </Box>
             </Box>
 
-            <Box p='6'>
+            <Box px="1" py="6">
                 {children}
             </Box>
         </Stack>

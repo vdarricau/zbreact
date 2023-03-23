@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import { Box } from '@chakra-ui/react';
 import Body from './Body';
+import FooterComponent from './components/FooterComponent';
 import NavComponent from './components/NavComponent';
 
 function App() {
   return (
     <>
       <NavComponent />
-      <div className="App">
+      <Box className='App' minHeight={{ 'md': 'calc(100vh - 145px)', 'base': 'calc(100vh - 185px)' }}>
         <Body />
-      </div>
+      </Box>
+      <FooterComponent />
     </>
   )
 }

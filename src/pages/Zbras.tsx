@@ -2,6 +2,7 @@ import { Box, Container, Stack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useAuthHeader, useAuthUser } from "react-auth-kit";
 import { BiBomb, BiRocket } from "react-icons/bi";
+import ReactTimeAgo from "react-time-ago";
 import Zbra from "../@ts/Zbra";
 import api from "../api/api";
 import FriendItem from "../components/FriendItem";
@@ -48,7 +49,7 @@ const Zbras = () => {
                                 <FriendItem friend={friend} key={zbra.id}>
                                     <Stack direction="row">
                                         <Box>
-                                            { date.toDateString() }
+                                            <ReactTimeAgo date={date} locale="en-US"/>
                                         </Box>
                                         <Box>
                                             { isSender ? <BiRocket fontSize="20px" /> : <BiBomb fontSize="20px" />}
