@@ -44,7 +44,7 @@ import { forwardRef, useRef } from 'react'
             name="password"
             type={isOpen ? 'text' : 'password'}
             autoComplete="current-password"
-            value="password"
+            defaultValue="password"
             required
             {...props}
           />

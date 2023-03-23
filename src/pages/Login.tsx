@@ -3,6 +3,7 @@ import {
     FormControl, FormErrorMessage, FormLabel,
     Heading,
     HStack,
+    Image,
     Input,
     Stack,
     Text
@@ -58,12 +59,12 @@ const Login = () => {
             <Container maxW="lg" py={{ base: '12', md: '24' }} px={{ base: '0', sm: '8' }}>
                 <Stack spacing="8">
                     <Stack spacing="6">
-                        <Logo />
+                        <Image src='/favicon.png' w="150px" margin="auto"/>
                         <Stack spacing={{ base: '2', md: '3' }} textAlign="center">
                             <Heading size={{ base: 'xs', md: 'sm' }}>Log in to your account</Heading>
                             <HStack spacing="1" justify="center">
                                 <Text color="muted">Don't have an account?</Text>
-                                <Button variant="link" colorScheme="blue"> {/* @TODO for v2 */}
+                                <Button variant="link" colorScheme="orange"> {/* @TODO for v2 */}
                                     Sign up
                                 </Button>
                             </HStack>
@@ -81,7 +82,7 @@ const Login = () => {
                                 <Stack spacing="5">
                                     <FormControl isInvalid={error !== null}>
                                         <FormLabel htmlFor="email">Email</FormLabel>
-                                        <Input id="email" type="email" required value="test@example.com"/>
+                                        <Input id="email" type="email" required defaultValue="test@example.com"/>
                                         <FormErrorMessage>
                                             {error}
                                         </FormErrorMessage>
