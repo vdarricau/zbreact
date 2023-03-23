@@ -1,9 +1,6 @@
 import {
-    Box,
-    Button, Container,
-    FormControl,
-    FormErrorMessage,
-    FormLabel,
+    Box, Button, Container,
+    FormControl, FormErrorMessage, FormLabel,
     Heading,
     HStack,
     Input,
@@ -13,15 +10,16 @@ import {
 import { useState } from "react";
 import { useSignIn } from 'react-auth-kit';
 import { useNavigate } from "react-router-dom";
-import api from "../api/api";
 import { Logo } from '../components/Logo';
 import { PasswordField } from '../components/PasswordField';
+import useApi from '../hooks/useApi';
 
 const Login = () => {
     const signIn = useSignIn();
     const [ isSubmitting, setIsSubmitting ] = useState<boolean>(false);
     const [ error, setError ] = useState<string|null>(null);
     const navigate = useNavigate();
+    const { loginApi } = useApi();
     
 
     const handleSubmit = async (e: React.SyntheticEvent) => {
@@ -37,10 +35,7 @@ const Login = () => {
         };
         
         try {
-            const response = await api.post('/login', {
-                email: target.email.value,
-                password: target.password.value
-            });
+            const response = await loginApi(target.email.value, target.password.value);
 
             if(signIn({
                 token: response.data.token,

@@ -62,9 +62,11 @@ const NavUser = ({ isAuthenticated, user }: { isAuthenticated: boolean, user: Us
           </Center>
           <br />
           <Center>
-            <p>{user?.email}</p>
+            <Box>{user?.email}</Box>
           </Center>
-          <br />
+          <Center>
+            <Box>{user?.username}</Box>
+          </Center>
           <MenuDivider />
           <RouteLink to="/zbros">
             <MenuItem>Zbros</MenuItem>

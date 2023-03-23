@@ -7,8 +7,8 @@ import { useEffect, useState } from "react";
 import { useAuthHeader } from 'react-auth-kit';
 import Friend from "../@ts/Friend";
 import FriendRequest from "../@ts/FriendRequest";
-import api from "../api/api";
 import FriendItem from "../components/FriendItem";
+import useApi from "../hooks/useApi";
 
 const Friends = () => {
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
@@ -18,14 +18,11 @@ const Friends = () => {
     const [ friendRequests, setFriendRequests ] = useState<Array<FriendRequest>>([]);
     const authHeader = useAuthHeader();
     const toast = useToast();
+    const { getFriendsApi, getFriendRequestsApi, acceptFriendRequestApi, createZbraApi } = useApi();
 
     const getFriends = async () => {
         try {
-            const response = await api.get('/friends', {
-                headers: {
-                    Authorization: authHeader(),
-                }
-            });
+            const response = await getFriendsApi()
 
             setFriends(response.data);
         } catch (error) {
@@ -35,11 +32,7 @@ const Friends = () => {
 
     const getFriendRequests = async () => {
         try {
-            const response = await api.get('/friend-requests', {
-                headers: {
-                    Authorization: authHeader(),
-                }
-            });
+            const response = await getFriendRequestsApi();
 
             setFriendRequests(response.data);
         } catch (error) {
@@ -49,11 +42,7 @@ const Friends = () => {
 
     const acceptFriendRequest = async (friendRequest: FriendRequest) => {
         try {
-            const response = await api.post(`/friend-requests/${friendRequest.id}/accept`, {}, {
-                headers: {
-                    Authorization: authHeader(),
-                }
-            });
+            const response = await acceptFriendRequestApi(friendRequest);
 
             toast({
                 title: `${friendRequest.requester.username} is now a zbro. Go send him a zbra!`,
@@ -71,7 +60,6 @@ const Friends = () => {
         e.preventDefault();
 
         setIsLoading(true);
-        // setError(null);
 
         const target = e.target as typeof e.target & {
           friendId: { value: string };
@@ -79,14 +67,7 @@ const Friends = () => {
         };
         
         try {
-            const response = await api.post('/zbras', {
-                friendId: target.friendId.value,
-                message: target.message.value
-            }, {
-                headers: {
-                    Authorization: authHeader(),
-                }
-            });
+            const response = await createZbraApi(target.friendId.value, target.message.value);
 
             setIsLoading(false);
             onClose();
