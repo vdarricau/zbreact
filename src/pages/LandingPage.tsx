@@ -1,5 +1,13 @@
-const LandingPage = () => {
-    return <h1>Home</h1>;
-}
+import { Box, Container, Heading } from "@chakra-ui/react";
 
-export default LandingPage;
+export default function LandingPage() {
+    return (
+        <>
+            <Container py="5">
+                <Box>
+                    <Heading>Become part of the Zbrommunity</Heading>
+                </Box>
+            </Container>
+        </>
+    )
+}

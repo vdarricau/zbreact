@@ -1,7 +1,6 @@
-import { Badge, Box, Image, Stack } from "@chakra-ui/react"
-import avatar from "../assets/avatar.png";
-import Friend from "../@ts/Friend";
+import { Avatar, Box, Stack } from "@chakra-ui/react";
 import { ReactNode } from 'react';
+import Friend from "../@ts/Friend";
 
 const FriendItem = ({ children, friend }: { children: ReactNode, friend: Friend }) => {
     return (
@@ -14,12 +13,7 @@ const FriendItem = ({ children, friend }: { children: ReactNode, friend: Friend 
             px="2"
             borderRadius="10"
         >
-            <Image 
-                src={friend.avatar ? friend.avatar : avatar} 
-                alt="friend avatar"
-                h="50px"
-                borderRadius="50"
-            />
+            <Avatar name={friend.username} src={friend.avatar} />
 
             <Box p="1" flex="auto">
                 <Box display='flex' alignItems='baseline'>

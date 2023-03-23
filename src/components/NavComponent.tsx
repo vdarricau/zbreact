@@ -46,10 +46,13 @@ const NavUser = ({ isAuthenticated, user }: { isAuthenticated: boolean, user: Us
           rounded={'full'}
           variant={'link'}
           cursor={'pointer'}
-          minW={0}>
+          minW={0}
+          _hover={{textDecoration: "none"}}
+        >
           <Avatar
             size={'sm'}
-            src={'https://avatars.dicebear.com/api/male/username.svg'}
+            src={user?.avatar}
+            name={user?.username}
           />
         </MenuButton>
         <MenuList alignItems={'center'}>
@@ -57,7 +60,8 @@ const NavUser = ({ isAuthenticated, user }: { isAuthenticated: boolean, user: Us
           <Center>
             <Avatar
               size={'2xl'}
-              src={'https://avatars.dicebear.com/api/male/username.svg'}
+              src={user?.avatar}
+              name={user?.username}
             />
           </Center>
           <br />
