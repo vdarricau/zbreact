@@ -1,5 +1,6 @@
 import { RequireAuth } from 'react-auth-kit';
 import { Route, Routes } from 'react-router-dom';
+import FriendPage from './pages/FriendPage';
 import Friends from './pages/Friends';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -14,6 +15,7 @@ const Body = () => {
             <Route path='/login' element={<Login />} />
             <Route path='/logout' element={<Logout />} />
             <Route path='/zbros' element={<RequireAuth loginPath='/login'><Friends /></RequireAuth>} />
+            <Route path='/zbros/:friendId' element={<RequireAuth loginPath='/login'><FriendPage /></RequireAuth>} />
             <Route path='/zbra/send' element={<RequireAuth loginPath='/login'><SendZbra /></RequireAuth>} />
             
             <Route path='*' element={<NotFound />}/>

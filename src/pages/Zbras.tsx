@@ -4,27 +4,27 @@ import { useAuthUser } from "react-auth-kit";
 import { BiBomb, BiRocket } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
-import Zbra from "../@ts/Zbra";
+import Feed from "../@ts/Feed";
 import FriendItem from "../components/FriendItem";
 import useApi from "../hooks/useApi";
 
 const Zbras = () => {
-    const [zbras, setZbras] = useState<Array<Zbra>>([]);
+    const [feeds, setFeeds] = useState<Array<Feed>>([]);
     const user = useAuthUser()();
-    const { getZbrasApi } = useApi();
+    const { getFeedsApi } = useApi();
 
-    const getZbras = async () => {
+    const getFeeds = async () => {
         try {
-            const response = await getZbrasApi();
+            const response = await getFeedsApi();
 
-            setZbras(response.data);
+            setFeeds(response.data);
         } catch (error) {
             // @TODO deal with this later
         }
     }
 
     useEffect(() => {
-        getZbras();
+        getFeeds();
     }, []);
 
     return (
@@ -43,20 +43,18 @@ const Zbras = () => {
                         </Button>
                     </Link>
                 </Box>
-                { zbras.length !== 0 ?
+                { feeds.length !== 0 ?
                     <Box py="5">
-                        { zbras.map((zbra) => {
-                            let friend = zbra.receiver;
+                        { feeds.map((feed) => {
                             let isSender = true;
-                            let date = new Date(zbra.createdAt);
+                            let date = new Date(feed.updatedAt);
 
-                            if (zbra.receiver.id === user?.id) {
-                                friend = zbra.sender;
+                            if (feed.zbra.receiver.id === user?.id) {
                                 isSender = false;
                             }
 
                             return (
-                                <FriendItem friend={friend} key={zbra.id}>
+                                <FriendItem friend={feed.friend} key={feed.zbra.id}>
                                     <Stack direction="row">
                                         <Box>
                                             <ReactTimeAgo date={date} locale="en-US"/>

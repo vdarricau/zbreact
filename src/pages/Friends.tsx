@@ -4,7 +4,7 @@ import {
     ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, SimpleGrid, useDisclosure, useToast
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useAuthHeader } from 'react-auth-kit';
+import { useNavigate } from "react-router-dom";
 import Friend from "../@ts/Friend";
 import FriendRequest from "../@ts/FriendRequest";
 import FriendItem from "../components/FriendItem";
@@ -16,9 +16,9 @@ const Friends = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [ friend, setFriend ] = useState<Friend|null>(null);
     const [ friendRequests, setFriendRequests ] = useState<Array<FriendRequest>>([]);
-    const authHeader = useAuthHeader();
-    const toast = useToast();
     const { getFriendsApi, getFriendRequestsApi, acceptFriendRequestApi, createZbraApi } = useApi();
+    const toast = useToast();
+    const navigate = useNavigate();
 
     const getFriends = async () => {
         try {
@@ -58,6 +58,7 @@ const Friends = () => {
 
     const handleSubmitSendZbra = async (e: React.SyntheticEvent) => {
         e.preventDefault();
+        e.stopPropagation();
 
         setIsLoading(true);
 
@@ -74,7 +75,8 @@ const Friends = () => {
             toast({
                 title: `!ZBRA!`,
                 status: 'success'
-            })
+            });
+            navigate(`/zbros/${target.friendId.value}`);
         } catch (error) {
 
         }
@@ -102,7 +104,10 @@ const Friends = () => {
                             { friendRequests.map((friendRequest) => {
                                 return (
                                     <FriendItem friend={friendRequest.requester} key={friendRequest.id}>
-                                        <Button borderRadius="50" fontWeight="bold" onClick={() => acceptFriendRequest(friendRequest)}>Accept</Button>
+                                        <Button borderRadius="50" fontWeight="bold" onClick={(e) => {
+                                            e.stopPropagation();
+                                            acceptFriendRequest(friendRequest);
+                                        }}>Accept</Button>
                                     </FriendItem>
                                 )
                             })}
@@ -118,7 +123,10 @@ const Friends = () => {
                             { friends.map((friend) => {
                                 return (
                                     <FriendItem friend={friend} key={friend.id}>
-                                        <Button borderRadius="50" fontWeight="bold" onClick={() => openSendZbraModal(friend)}>Zbra</Button>
+                                        <Button borderRadius="50" fontWeight="bold" onClick={(e) => {
+                                            e.stopPropagation();
+                                            openSendZbraModal(friend);
+                                        }}>Zbra</Button>
                                     </FriendItem>
                                 )
                             })}

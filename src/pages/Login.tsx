@@ -11,7 +11,6 @@ import {
 import { useState } from "react";
 import { useSignIn } from 'react-auth-kit';
 import { useNavigate } from "react-router-dom";
-import { Logo } from '../components/Logo';
 import { PasswordField } from '../components/PasswordField';
 import useApi from '../hooks/useApi';
 
@@ -82,7 +81,7 @@ const Login = () => {
                                 <Stack spacing="5">
                                     <FormControl isInvalid={error !== null}>
                                         <FormLabel htmlFor="email">Email</FormLabel>
-                                        <Input id="email" type="email" required defaultValue="test@example.com"/>
+                                        <Input id="email" type="email" required defaultValue="val@zbra.ninja"/>
                                         <FormErrorMessage>
                                             {error}
                                         </FormErrorMessage>

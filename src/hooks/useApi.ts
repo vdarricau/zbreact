@@ -1,4 +1,5 @@
 import { useAuthHeader, useAuthUser } from "react-auth-kit";
+import Friend from "../@ts/Friend";
 import FriendRequest from "../@ts/FriendRequest";
 import api from "../api/api";
 
@@ -45,13 +46,32 @@ export default function useApi() {
         })
     }
 
-    const getZbrasApi = () => {
-        return api.get('/zbras', {
+    const getFeedsApi = () => {
+        return api.get('/feeds', {
             headers: {
                 Authorization: authHeader(),
             }
         });
     }
 
-    return { loginApi, getFriendsApi, getFriendRequestsApi, acceptFriendRequestApi, createZbraApi, getZbrasApi };
+    const getFriendApi = (friendId: string) => {
+        return api.get(`/friends/${friendId}`, {
+            headers: {
+                Authorization: authHeader(),
+            }
+        });
+    }
+
+    const getExchangedZbrasApi = (friendId: string) => {
+        return api.get(`/friends/${friendId}/zbras`, {
+            headers: {
+                Authorization: authHeader(),
+            }
+        });
+    }
+
+    return { 
+        loginApi, getFriendsApi, getFriendRequestsApi, acceptFriendRequestApi,
+        createZbraApi, getFeedsApi, getFriendApi, getExchangedZbrasApi
+    };
 }
