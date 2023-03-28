@@ -15,7 +15,7 @@ const FriendItem = ({ children, friend }: { children: ReactNode, friend: Friend 
             _odd={{ backgroundColor: 'black'}}
             px="2"
             borderRadius="10"
-            onClick={() => navigate(`/zbros/${friend.id}`)}
+            onClick={() => navigate(`/zbros/${friend.id}`)} /* @TODO handle that better + prevent it if not friend yet!! */
         >
             <Avatar name={friend.username} src={friend.avatar} />
 

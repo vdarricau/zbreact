@@ -4,7 +4,7 @@ import {
     ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, SimpleGrid, useDisclosure, useToast
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Friend from "../@ts/Friend";
 import FriendRequest from "../@ts/FriendRequest";
 import FriendItem from "../components/FriendItem";
@@ -95,6 +95,19 @@ const Friends = () => {
     return (
         <>
             <Container>
+                <Box py="5">
+                    <Link to={'/zbros/add'}>
+                        <Button 
+                            w="100%" 
+                            h="70px"
+                            fontSize="2xl"
+                            colorScheme="orange"
+                            transition="all 0.5s ease-out"
+                        >
+                            FIND ZBROS
+                        </Button>
+                    </Link>
+                </Box>
                 { friendRequests.length !== 0 ?  
                     <Box py={5}>
                         <Heading as='h1' size='2xl' marginBottom="3">
@@ -114,10 +127,10 @@ const Friends = () => {
                         </Box>
                     </Box>
                 : null }
-                    { friends.length !== 0 ?  
-                    <Box py={5}>
+                <Box py={5}>
+                    { friends.length !== 0 ? <>
                         <Heading as='h1' size='2xl' marginBottom="3">
-                            OGs
+                            ZBROS
                         </Heading>
                         <SimpleGrid minChildWidth='320px'>
                             { friends.map((friend) => {
@@ -131,8 +144,12 @@ const Friends = () => {
                                 )
                             })}
                         </SimpleGrid>
-                    </Box>
-                : null }
+                    </> : <>
+                        <Heading as='h3' size='2xl' marginBottom="3">
+                            No zbros yet!
+                        </Heading>
+                    </> }
+                </Box>
 
                 <Modal isOpen={isOpen} onClose={onClose}>
                     <ModalOverlay />

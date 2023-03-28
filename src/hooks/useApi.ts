@@ -79,10 +79,26 @@ export default function useApi() {
         });
     }
 
+    const findUsersApi = (search: string) => {
+        return api.get(`/users?search=${search}`, {
+            headers: {
+                Authorization: authHeader(),
+            }
+        })
+    }
+
+    const sendFriendRequestApi = (friend: Friend) => {
+        return api.post(`users/${friend.id}/friend-requests`, {}, {
+            headers: {
+                Authorization: authHeader(),
+            }
+        })
+    }
+
     return { 
         loginApi, registerApi,
-        getFriendApi, getFriendsApi,
-        getFriendRequestsApi, acceptFriendRequestApi,
+        findUsersApi, getFriendApi, getFriendsApi,
+        sendFriendRequestApi, getFriendRequestsApi, acceptFriendRequestApi,
         createZbraApi, getFeedsApi, getExchangedZbrasApi
     };
 }

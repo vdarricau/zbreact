@@ -10,6 +10,7 @@ import {
   Link as RouteLink
 } from "react-router-dom";
 import User from '../@ts/User';
+import { FaUserPlus } from 'react-icons/fa';
 
 const NavLink = ({ children, link }: { children: ReactNode, link: string }) => (
   <RouteLink to={link}>
@@ -43,6 +44,9 @@ const NavUser = ({ isAuthenticated, user }: { isAuthenticated: boolean, user: Us
 
   return (
     <>
+      <NavLink link="/zbros/add">
+        <FaUserPlus />
+      </NavLink>
       <Menu>
         <MenuButton
           as={Button}
@@ -77,6 +81,9 @@ const NavUser = ({ isAuthenticated, user }: { isAuthenticated: boolean, user: Us
           <MenuDivider />
           <RouteLink to="/zbros">
             <MenuItem>Zbros</MenuItem>
+          </RouteLink>
+          <RouteLink to="/zbros/add">
+            <MenuItem>Add Zbros</MenuItem>
           </RouteLink>
           <MenuItem>Account Settings</MenuItem>
           <RouteLink to="/logout">

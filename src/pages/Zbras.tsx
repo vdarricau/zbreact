@@ -1,4 +1,4 @@
-import { Box, Button, Container, Stack } from "@chakra-ui/react";
+import { Box, Button, Container, Heading, Stack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useAuthUser } from "react-auth-kit";
 import { BiBomb, BiRocket } from "react-icons/bi";
@@ -43,7 +43,7 @@ const Zbras = () => {
                         </Button>
                     </Link>
                 </Box>
-                { feeds.length !== 0 ?
+                { feeds.length !== 0 &&
                     <Box py="5">
                         { feeds.map((feed) => {
                             let isSender = true;
@@ -67,7 +67,7 @@ const Zbras = () => {
                             )
                         })}
                     </Box>
-                : null }
+                }
             </Container>
         </>
     );
