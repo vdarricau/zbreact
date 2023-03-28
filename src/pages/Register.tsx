@@ -121,6 +121,7 @@ const Register = () => {
                                         </FormErrorMessage>
                                     </FormControl>
                                     <PasswordField error={errors?.password ? errors.password : []} />
+                                    {/* @TODO add password confirmation */}
                                 </Stack>
                                 {/* <HStack justify="space-between">
                                     <Checkbox defaultChecked>Remember me</Checkbox>
