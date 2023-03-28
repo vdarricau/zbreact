@@ -1,56 +1,56 @@
 import {
-    FormControl,
-    FormLabel,
-    IconButton,
-    Input,
-    InputGroup,
-    InputProps,
-    InputRightElement,
-    useDisclosure,
-    useMergeRefs,
+  Box,
+  FormControl, FormErrorMessage, FormLabel,
+  IconButton,
+  Input, InputGroup, InputRightElement,
+  useDisclosure
 } from '@chakra-ui/react'
+import { useRef } from 'react'
 import { HiEye, HiEyeOff } from 'react-icons/hi'
 
-import { forwardRef, useRef } from 'react'
-  
-  export const PasswordField = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-    const { isOpen, onToggle } = useDisclosure()
-    const inputRef = useRef<HTMLInputElement>(null)
-  
-    const mergeRef = useMergeRefs(inputRef, ref)
-    const onClickReveal = () => {
-      onToggle()
-      if (inputRef.current) {
-        inputRef.current.focus({ preventScroll: true })
-      }
+const PasswordField = ({ error } : { error: Array<string> }) => {
+  const { isOpen, onToggle } = useDisclosure()
+  const inputRef = useRef<HTMLInputElement>(null)
+  const onClickReveal = () => {
+    onToggle()
+    if (inputRef.current) {
+      inputRef.current.focus({ preventScroll: true })
     }
-  
-    return (
-      <FormControl>
-        <FormLabel htmlFor="password">Password</FormLabel>
-        <InputGroup>
-          <InputRightElement>
-            <IconButton
-              variant="link"
-              aria-label={isOpen ? 'Mask password' : 'Reveal password'}
-              icon={isOpen ? <HiEyeOff /> : <HiEye />}
-              onClick={onClickReveal}
-              tabIndex={-1}
-            />
-          </InputRightElement>
-          <Input
-            id="password"
-            ref={mergeRef}
-            name="password"
-            type={isOpen ? 'text' : 'password'}
-            autoComplete="current-password"
-            defaultValue="password"
-            required
-            {...props}
+  }
+
+  return (
+    <FormControl isInvalid={error.length !== 0}>
+      <FormLabel htmlFor="password">Password</FormLabel>
+      <InputGroup>
+        <InputRightElement>
+          <IconButton
+            variant="link"
+            aria-label={isOpen ? 'Mask password' : 'Reveal password'}
+            icon={isOpen ? <HiEyeOff /> : <HiEye />}
+            onClick={onClickReveal}
+            tabIndex={-1}
           />
-        </InputGroup>
-      </FormControl>
-    )
-  })
-  
-  PasswordField.displayName = 'PasswordField'
+        </InputRightElement>
+        <Input
+          id="password"
+          name="password"
+          ref={inputRef}
+          type={isOpen ? 'text' : 'password'}
+          autoComplete="current-password"
+          defaultValue="password"
+          minLength={8}
+          required
+        />
+      </InputGroup>
+      <FormErrorMessage display="block">
+          { error.map((error) => <Box pt={1}>{error}</Box>) }
+      </FormErrorMessage>
+    </FormControl>
+  )
+}
+
+PasswordField.defaultProps = {
+  error: [],
+}
+
+export default PasswordField;

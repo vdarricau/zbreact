@@ -14,6 +14,15 @@ export default function useApi() {
         })
     }
 
+    const registerApi = (email: string, password: string, name: string, username: string) => {
+        return api.post('/register', {
+            email,
+            password,
+            name,
+            username,
+        })
+    }
+
     const getFriendsApi = () => {
         return api.get('/friends', {
             headers: {
@@ -71,7 +80,9 @@ export default function useApi() {
     }
 
     return { 
-        loginApi, getFriendsApi, getFriendRequestsApi, acceptFriendRequestApi,
-        createZbraApi, getFeedsApi, getFriendApi, getExchangedZbrasApi
+        loginApi, registerApi,
+        getFriendApi, getFriendsApi,
+        getFriendRequestsApi, acceptFriendRequestApi,
+        createZbraApi, getFeedsApi, getExchangedZbrasApi
     };
 }

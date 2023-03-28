@@ -31,6 +31,9 @@ const NavUser = ({ isAuthenticated, user }: { isAuthenticated: boolean, user: Us
   if (false === isAuthenticated) {
     return (
       <>
+        <NavLink link={'/register'}>
+          Register
+        </NavLink>
         <NavLink link={'/login'}>
           Login
         </NavLink>

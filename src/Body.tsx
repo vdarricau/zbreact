@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import NotFound from './pages/NotFound';
+import Register from './pages/Register';
 import SendZbra from './pages/SendZbra';
 
 const Body = () => {
@@ -13,6 +14,7 @@ const Body = () => {
         <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
             <Route path='/logout' element={<Logout />} />
             <Route path='/zbros' element={<RequireAuth loginPath='/login'><Friends /></RequireAuth>} />
             <Route path='/zbros/:friendId' element={<RequireAuth loginPath='/login'><FriendPage /></RequireAuth>} />
