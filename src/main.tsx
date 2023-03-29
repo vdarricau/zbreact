@@ -1,4 +1,4 @@
-import { ChakraProvider, extendTheme } from '@chakra-ui/react'
+import { ChakraProvider, extendTheme, ThemeConfig } from '@chakra-ui/react'
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en.json'
 import React from 'react'
@@ -9,11 +9,12 @@ import App from './App'
 
 TimeAgo.addDefaultLocale(en)
 
-const colors = {
-  brand: {},
+const config: ThemeConfig = {
+  initialColorMode: 'dark',
+  useSystemColorMode: true,
 }
 
-const theme = extendTheme({ colors })
+const theme = extendTheme({ config })
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
