@@ -23,8 +23,14 @@ export default function useApi() {
         })
     }
 
-    const getFriendsApi = () => {
-        return api.get('/friends', {
+    const getFriendsApi = (search: string|null = null) => {
+        let query = '?';
+
+        if (search) {
+            query += `search=${search}&`;
+        }
+
+        return api.get(`/friends${query}`, {
             headers: {
                 Authorization: authHeader(),
             }

@@ -1,9 +1,11 @@
-import { Box, Button, Container, Heading, Input, Stack, useToast } from "@chakra-ui/react";
+import { Box, Button, Container, Heading, Input, useDisclosure, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useAuthUser } from "react-auth-kit";
 import Friend from "../@ts/Friend";
 import FriendRequest from "../@ts/FriendRequest";
 import FriendItem from "../components/FriendItem";
+import PendingFriendRequestsComponent from "../components/PendingFriendRequestsComponent";
+import SendZbraModal from "../components/SendZbraModal";
 import useApi from "../hooks/useApi";
 
 interface UserFind {
@@ -13,7 +15,10 @@ interface UserFind {
     isFriend: boolean
 }
 
-const ButtonFindFriend = ({ userFind }: { userFind: UserFind }) => {
+const ButtonFindFriend = (
+    { userFind, openSendZbraModal, refresh, setRefresh }: 
+    { userFind: UserFind, openSendZbraModal: (friend: Friend) => void, refresh: number, setRefresh: (refresh: number) => void }
+) => {
     const { sendFriendRequestApi, acceptFriendRequestApi } = useApi();
     const toast = useToast();
     const user = useAuthUser()();
@@ -50,6 +55,7 @@ const ButtonFindFriend = ({ userFind }: { userFind: UserFind }) => {
             })
 
             setFriendRequest(null);
+            setRefresh(++refresh);
             setIsFriend(true);
         } catch (error) {
             // @TODO deal with this later
@@ -81,7 +87,7 @@ const ButtonFindFriend = ({ userFind }: { userFind: UserFind }) => {
         return (
             <Button borderRadius="50" fontWeight="bold" onClick={(e) => {
                 e.stopPropagation();
-                alert('NEED TO EXTRACT CODE FROM Friends.tsx');
+                openSendZbraModal(userFind.user);
             }}>
                 Send Zbra
             </Button>
@@ -98,12 +104,23 @@ const ButtonFindFriend = ({ userFind }: { userFind: UserFind }) => {
 
 export default function FindFriends() {
     const [search, setSearch] = useState('');
+    const [refresh, setRefresh] = useState(0);
     const [users, setUsers] = useState<Array<UserFind>>([]);
     const { findUsersApi } = useApi();
+
+    // Send Zbra modal
+    const [friend, setFriend] = useState<Friend|null>(null);
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const openSendZbraModal = (friend: Friend) => {
+        setFriend(friend);
+        onOpen();
+    }
+    // End Send Zbra modal
     
     useEffect(() => {
         handleChange();
-    }, [search]);
+    }, [search, refresh]);
 
     const handleChange = async () => {
         try {
@@ -118,6 +135,7 @@ export default function FindFriends() {
     return (
         <>
             <Container>
+                <PendingFriendRequestsComponent refresh={refresh} setRefresh={setRefresh} />
                 <Box py={5}>
                     <Heading as='h1' size='2xl' marginBottom="3">
                         Add Zbro
@@ -127,7 +145,7 @@ export default function FindFriends() {
                             id="search"
                             name="search"
                             type="text"
-                            placeholder="Find zbros"
+                            placeholder="Start typing to find some new zbros!"
                             value={search}
                             onChange={e => setSearch(e.target.value)}
                         />
@@ -138,12 +156,14 @@ export default function FindFriends() {
                         { users.map((userFind) => {
                             return (
                                 <FriendItem friend={userFind.user} key={userFind.id}>
-                                    <ButtonFindFriend userFind={userFind} />
+                                    <ButtonFindFriend userFind={userFind} openSendZbraModal={openSendZbraModal} refresh={refresh} setRefresh={setRefresh} />
                                 </FriendItem>
                             )
                         })}
                     </Box>
                 : null }
+
+                <SendZbraModal friend={friend} isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
             </Container>
         </>
     )
