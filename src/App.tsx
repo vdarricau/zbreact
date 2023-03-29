@@ -5,13 +5,13 @@ import NavComponent from './components/NavComponent';
 
 function App() {
   return (
-    <>
+    <Box h="100vh" display="grid" gridTemplateRows="auto 1fr auto">
       <NavComponent />
-      <Box className='App' minHeight={{ 'md': 'calc(100vh - 145px)', 'base': 'calc(100vh - 185px)' }}>
+      <Box className='App' overflowY="auto">
         <Body />
       </Box>
       <FooterComponent />
-    </>
+    </Box>
   )
 }
 

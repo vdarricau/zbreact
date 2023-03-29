@@ -103,7 +103,11 @@ export default function NavComponent() {
   const user = useAuthUser()() as User|null;
 
   return (
-      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+      <Box 
+        bg={useColorModeValue('gray.100', 'gray.900')}
+        px={4}
+        borderColor={useColorModeValue('gray.200', 'gray.700')}
+      >
         <Container px="5">
           <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
             <RouteLink to="/">

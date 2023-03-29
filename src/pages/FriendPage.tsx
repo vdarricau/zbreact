@@ -72,7 +72,7 @@ export default function FriendPage() {
 
     return (
         <>
-            <Container py="5" h="100%">
+            <Container py="5" h="calc(100% - 2 * var(--chakra-space-5))">
                 <Flex pb="5" align="center" fontWeight='bold'>
                     <Button onClick={() => (navigate(-1))}>
                         <FaChevronLeft /> &nbsp; Back
