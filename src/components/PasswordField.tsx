@@ -20,7 +20,6 @@ const PasswordField = ({ error } : { error: Array<string> }) => {
 
   return (
     <FormControl isInvalid={error.length !== 0}>
-      <FormLabel htmlFor="password">Password</FormLabel>
       <InputGroup>
         <InputRightElement>
           <IconButton
@@ -32,12 +31,15 @@ const PasswordField = ({ error } : { error: Array<string> }) => {
           />
         </InputRightElement>
         <Input
+          py="6"
+          px="5"
           id="password"
           name="password"
+          placeholder="Password"
           ref={inputRef}
           type={isOpen ? 'text' : 'password'}
           autoComplete="current-password"
-          defaultValue="password"
+          defaultValue=""
           minLength={8}
           required
         />

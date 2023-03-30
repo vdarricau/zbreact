@@ -10,7 +10,7 @@ function App() {
       <Box className='App' overflowY="auto">
         <Body />
       </Box>
-      <FooterComponent />
+      {/* <FooterComponent /> */}
     </Box>
   )
 }

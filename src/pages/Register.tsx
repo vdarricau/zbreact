@@ -1,13 +1,17 @@
 import {
     Box, Button, Container,
     FormControl, FormErrorMessage, FormLabel,
+    Card, CardBody, CardHeader,
     Heading,
     HStack,
     Image,
     Input,
     Stack,
-    Text
+    Text,
+    useColorMode
 } from '@chakra-ui/react';
+import zbraLogo from '../assets/images/zbra_logo.png';
+import zbraLogoDark from '../assets/images/zbra_logo_dark.png';
 import { AxiosError } from 'axios';
 import { useState } from "react";
 import { useSignIn } from 'react-auth-kit';
@@ -28,7 +32,13 @@ const Register = () => {
     const [ errors, setErrors ] = useState<ErrorRegister|null>(null);
     const navigate = useNavigate();
     const { registerApi } = useApi();
+    const { colorMode, toggleColorMode } = useColorMode();
     
+    let logo = zbraLogo;
+
+    if (colorMode === 'dark') {
+        logo = zbraLogoDark; 
+    }
 
     const handleSubmit = async (e: React.SyntheticEvent) => {
         // Prevent the browser from reloading the page
@@ -75,47 +85,84 @@ const Register = () => {
 
     return (
         <>
-            <Container maxW="lg" py={{ base: '12', md: '24' }} px={{ base: '0', sm: '8' }}>
-                <Stack spacing="8">
-                    <Stack spacing="6">
-                        <Image src='/favicon.png' w="150px" margin="auto"/>
-                        <Stack spacing={{ base: '2', md: '3' }} textAlign="center">
-                            <Heading size={{ base: 'xs', md: 'sm' }}>Create your ZBRAccount</Heading>
-                            <HStack spacing="1" justify="center">
-                                <Text color="muted">Already have an ZBRAccount?</Text>
-                                <Button variant="link" colorScheme="orange" onClick={() => navigate('/login')}> {/* @TODO for v2 */}
-                                    Log in
-                                </Button>
-                            </HStack>
-                        </Stack>
-                    </Stack>
-                    <Box
-                        py={{ base: '0', sm: '8' }}
-                        px={{ base: '4', sm: '10' }}
-                        bg={{ base: 'transparent', sm: 'bg-surface' }}
-                        boxShadow={{ base: 'none', sm: 'md' }}
-                        borderRadius={{ base: 'none', sm: 'xl' }}
-                    >
+            <Container maxW="sm">
+                <Image py="5" src={logo} w="14rem" margin="auto"/>
+                
+                <Card 
+                    align="center" 
+                    borderRadius="3xl" 
+                    maxW="sm" 
+                    textAlign="center"
+                    m="auto"
+                    background="white"
+                    color="brand.900"
+                    pb="3"
+                    boxShadow="3px 3px 7px 0px"
+                    _before={{
+                        content: "''",
+                        background: "brand.300",
+                        width: "100px",
+                        height: "100px",
+                        position: "absolute",
+                        borderRadius: "full",
+                        left: "-35px",
+                        top: "-30px",
+                        zIndex: "-1",
+                    }}
+                    _after={{
+                        content: "''",
+                        background: "brand.300",
+                        width: "400px",
+                        height: "400px",
+                        position: "absolute",
+                        borderRadius: "full",
+                        left: "50px",
+                        top: "350px",
+                        zIndex: "-1",
+                    }}
+                >
+                    <CardHeader pb="0">
+                        <Heading
+                            as="h1"
+                            fontWeight="bold"
+                            fontSize="2xl"
+                            pb="3"
+                        >
+                            Register
+                        </Heading>
+                        <Text fontWeight="semibold">
+                            Account created? &nbsp;
+                            <Button
+                                variant="link"
+                                fontWeight="normal"
+                                color="brand.100"
+                                textDecoration="underline"
+                                _hover={{color: "brand.500"}}
+                                onClick={() => navigate('/register')}
+                            >
+                                Sign In
+                            </Button>
+                        </Text>
+                    </CardHeader>
+                    
+                    <CardBody pb="10" px="6">
                         <form method="post" onSubmit={handleSubmit}>
                             <Stack spacing="6">
                                 <Stack spacing="5">
                                     <FormControl isInvalid={errors?.hasOwnProperty('name')}>
-                                        <FormLabel htmlFor="name">Name</FormLabel>
-                                        <Input id="name" type="name" required defaultValue="Edy Hean"/>
+                                        <Input id="name" type="name" placeholder="Name" required />
                                         <FormErrorMessage display="block">
                                             { errors?.name?.map((error) => <Box pt={1}>{error}</Box>) }
                                         </FormErrorMessage>
                                     </FormControl>
                                     <FormControl isInvalid={errors?.hasOwnProperty('username') && errors?.username?.length !== 0}>
-                                        <FormLabel htmlFor="username">Username</FormLabel>
-                                        <Input id="username" type="username" required defaultValue="hyrule-hero"/>
+                                        <Input id="username" type="username" placeholder="Username" required />
                                         <FormErrorMessage display="block">
                                             { errors?.username?.map((error) => <Box pt={1}>{error}</Box>) }
                                         </FormErrorMessage>
                                     </FormControl>
                                     <FormControl isInvalid={errors?.hasOwnProperty('email') && errors?.email?.length !== 0}>
-                                        <FormLabel htmlFor="email">Email</FormLabel>
-                                        <Input id="email" type="email" required defaultValue="edy@zbra.ninja"/>
+                                        <Input id="email" type="email" placeholder="Email" required />
                                         <FormErrorMessage display="block">
                                             { errors?.email?.map((error) => <Box pt={1}>{error}</Box>) }
                                         </FormErrorMessage>
@@ -131,18 +178,20 @@ const Register = () => {
                                 </HStack> */}
                                 <Stack spacing="6">
                                     <Button 
-                                        variant="solid"
+                                        variant="gradient"
                                         type="submit"
                                         isLoading={isSubmitting}
                                     >Register</Button>
                                 </Stack>
                             </Stack>
                         </form>
-                    </Box>
-                </Stack>
+                    </CardBody>
+                </Card>
             </Container>
         </>
     )
 }
 
 export default Register;
+
+                        
