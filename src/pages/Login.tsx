@@ -1,18 +1,13 @@
 import {
-    Box, Button, Card, CardBody, CardHeader, Container,
-    FormControl, FormErrorMessage, Heading, Checkbox,
-    HStack,
-    Image,
-    Input,
+    Button, Card, CardBody, CardHeader, Checkbox, Container,
+    FormControl, FormErrorMessage, Heading, HStack, Input,
     Stack,
-    Text,
-    useColorMode
+    Text
 } from '@chakra-ui/react';
-import zbraLogo from '../assets/images/zbra_logo.png';
-import zbraLogoDark from '../assets/images/zbra_logo_dark.png';
 import { useState } from "react";
 import { useSignIn } from 'react-auth-kit';
 import { useNavigate } from "react-router-dom";
+import Logo from '../components/Logo';
 import PasswordField from '../components/PasswordField';
 import useApi from '../hooks/useApi';
 
@@ -22,13 +17,6 @@ const Login = () => {
     const [ error, setError ] = useState<string|null>(null);
     const navigate = useNavigate();
     const { loginApi } = useApi();
-    const { colorMode, toggleColorMode } = useColorMode();
-
-    let logo = zbraLogo;
-
-    if (colorMode === 'dark') {
-        logo = zbraLogoDark; 
-    }
 
     const handleSubmit = async (e: React.SyntheticEvent) => {
         // Prevent the browser from reloading the page
@@ -64,7 +52,7 @@ const Login = () => {
     return (
         <>
             <Container maxW="sm">
-                <Image py="5" src={logo} w="14rem" margin="auto"/>
+                <Logo py="5" w="14rem" margin="auto"/>
                 
                 <Card 
                     align="center" 
@@ -124,7 +112,7 @@ const Login = () => {
                     </CardHeader>
                     
                     <CardBody pb="10" px="6">
-                        <form method="post" onSubmit={handleSubmit}>
+                        <form method="post" onSubmit={handleSubmit} className="form-auth">
                             <Stack spacing="6">
                                 <Stack spacing="5">
                                     <FormControl isInvalid={error !== null}>

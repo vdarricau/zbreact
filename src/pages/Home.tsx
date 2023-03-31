@@ -1,12 +1,12 @@
 import { useIsAuthenticated } from "react-auth-kit";
 import LandingPage from "./LandingPage";
-import Zbras from "./Zbras";
+import ZbrasV2 from "./ZbrasV2";
 
 const Home = () => {
     const isAuthenticated = useIsAuthenticated();
     
     if (isAuthenticated()) {
-        return <Zbras />
+        return <ZbrasV2 />
     }
     
     return <LandingPage />;
