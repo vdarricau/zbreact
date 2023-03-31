@@ -11,8 +11,8 @@ const FriendItem = ({ children, friend }: { children: ReactNode, friend: Friend 
             direction="row"
             alignItems="center"
             justifyContent="space-between"
-            _even={{ backgroundColor: 'orange'}}
-            _odd={{ backgroundColor: 'black'}}
+            _even={{ backgroundColor: 'brand.900'}}
+            _odd={{ backgroundColor: 'white', color: 'brand.900'}}
             px="2"
             borderRadius="10"
             onClick={() => navigate(`/zbros/${friend.id}`)} /* @TODO handle that better + prevent it if not friend yet!! */
