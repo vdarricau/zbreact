@@ -1,36 +1,22 @@
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import {
-  Avatar, Box, Button, Center, Container, Flex, Menu,
+  Avatar, Box, Button, Center, Container, Flex, Image, Menu,
   MenuButton, MenuDivider, MenuItem, MenuList, Stack,
   useColorMode, useColorModeValue
 } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { useAuthUser, useIsAuthenticated } from 'react-auth-kit';
+import { FaUserPlus } from 'react-icons/fa';
 import {
   Link as RouteLink
 } from "react-router-dom";
-import User from '../@ts/User';
-import { FaUserPlus } from 'react-icons/fa';
-import Logo from './Logo';
-
-const NavLink = ({ children, link }: { children: ReactNode, link: string }) => (
-  <RouteLink to={link}>
-    <Button
-      px={2}
-      py={2}
-      rounded={'md'}
-      _hover={{
-        textDecoration: 'none',
-        bg: useColorModeValue('gray.200', 'gray.700'),
-      }}
-    >
-      {children}
-    </Button>
-  </RouteLink>
-);
+import User from '../../@ts/User';
+import zbraLogoDark from '../../assets/images/zbra_logo_dark.png';
+import { NavLink, NavMenuButton } from './NavMenuButton';
+import NotificationNavMenu from './NotificationNavMenu';
 
 const NavUser = ({ isAuthenticated, user }: { isAuthenticated: boolean, user: User|null }) => {
-  if (false === isAuthenticated) {
+  if (null === user || false === isAuthenticated) {
     return (
       <>
         <NavLink link={'/register'}>
@@ -48,7 +34,10 @@ const NavUser = ({ isAuthenticated, user }: { isAuthenticated: boolean, user: Us
       <NavLink link="/zbros/add">
         <FaUserPlus />
       </NavLink>
-      <Menu>
+      <NotificationNavMenu />
+      <Menu
+        autoSelect={false}
+      >
         <MenuButton
           as={Button}
           rounded={'full'}
@@ -59,36 +48,27 @@ const NavUser = ({ isAuthenticated, user }: { isAuthenticated: boolean, user: Us
         >
           <Avatar
             size={'sm'}
-            src={user?.avatar}
-            name={user?.username}
+            src={user.avatar}
+            name={user.username}
           />
         </MenuButton>
-        <MenuList alignItems={'center'}>
-          <br />
+        <MenuList
+          alignItems={'center'}
+          w={{base: "100vw", sm: "auto"}}
+        >
           <Center>
-            <Avatar
-              size={'2xl'}
-              src={user?.avatar}
-              name={user?.username}
-            />
-          </Center>
-          <br />
-          <Center>
-            <Box>{user?.email}</Box>
-          </Center>
-          <Center>
-            <Box>{user?.username}</Box>
+            <Flex alignItems="center" color="white">
+              <Avatar src={user.avatar} name={user.username} size="sm" /> &nbsp;
+              {user.username}
+            </Flex>
           </Center>
           <MenuDivider />
+          <MenuItem>Profile</MenuItem>
           <RouteLink to="/zbros">
-            <MenuItem>Zbros</MenuItem>
+            <MenuItem bg="none">My zbros</MenuItem>
           </RouteLink>
-          <RouteLink to="/zbros/add">
-            <MenuItem>Add Zbros</MenuItem>
-          </RouteLink>
-          <MenuItem>Account Settings</MenuItem>
           <RouteLink to="/logout">
-            <MenuItem>
+            <MenuItem bg="none">
               Logout
             </MenuItem>
           </RouteLink>
@@ -105,21 +85,21 @@ export default function NavComponent() {
 
   return (
       <Box
-        bg={useColorModeValue('gray.100', 'gray.900')}
-        px={4}
+        bg="brand.900"
+        px="0"
         borderColor={useColorModeValue('gray.200', 'gray.700')}
       >
         <Container px="5">
           <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
             <RouteLink to="/">
-              <Logo w="20" />
+              <Image src={zbraLogoDark} w="20" />
             </RouteLink>
 
             <Flex alignItems={'center'}>
-              <Stack direction={'row'} spacing={7}>
-                <Button onClick={toggleColorMode}>
+              <Stack direction={'row'} spacing={3}>
+                <NavMenuButton onClick={toggleColorMode}>
                   {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-                </Button>
+                </NavMenuButton>
 
                 <NavUser isAuthenticated={isAuthenticated()} user={user} />
               </Stack>

@@ -10,6 +10,7 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import './assets/css/App.scss'
+import { menuTheme } from './theme/Menu'
 
 TimeAgo.addDefaultLocale(en)
 
@@ -59,6 +60,7 @@ const theme = extendTheme({
         }
       }
     },
+    Menu: menuTheme,
   }
 })
 

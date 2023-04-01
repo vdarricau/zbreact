@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import Body from './Body';
 import FooterComponent from './components/FooterComponent';
-import NavComponent from './components/NavComponent';
+import NavComponent from './components/menu/NavComponent';
 
 function App() {
   return (
