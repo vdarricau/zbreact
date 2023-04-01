@@ -1,18 +1,15 @@
-import { Box, Button, Card, CardBody, Container, Flex, Grid, Heading, HStack, Image, useColorModeValue } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, Container, Grid, Heading, HStack, Image } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useAuthUser } from "react-auth-kit";
-import { BiBomb, BiRocket } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import ReactTimeAgo from "react-time-ago";
+import TypeWriter from 'typewriter-effect';
 import Feed from "../@ts/Feed";
-import FriendItem from "../components/FriendItem";
+import zbraLogo from "../assets/images/zbra_logo_dark.png";
 import FriendItemV2 from "../components/FriendItemV2";
 import useApi from "../hooks/useApi";
-import TypeWriter from 'typewriter-effect'
-import Logo from "../components/Logo";
-import zbraLogo from "../assets/images/zbra_logo_dark.png";
 
 const Zbras = () => {
+    /* @TODO quand on a pas de Zbro, on est redirigé vers la page d'ajour de Zbro */
+
     const [feeds, setFeeds] = useState<Array<Feed>>([]);
     const { getFeedsApi } = useApi();
 
@@ -63,9 +60,7 @@ const Zbras = () => {
                     </CardBody>
                 </Card>
                 <HStack py="5" justifyContent="center">
-                    <Heading fontSize="xl">
-                        Give it a try
-                    </Heading>
+                    {/* TODO rendre le logo un peu organique, qu'il bouge de temps en temps, et quand tu cliques dessus ça fait grandir la liste de zbro au dessus */}
                     <Link to={'/zbra/send'}>
                         <Button 
                             h="70px"
