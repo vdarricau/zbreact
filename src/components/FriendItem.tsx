@@ -11,25 +11,24 @@ const FriendItem = ({ children, friend }: { children: ReactNode, friend: Friend 
             direction="row"
             alignItems="center"
             justifyContent="space-between"
-            _even={{ backgroundColor: 'brand.900'}}
-            _odd={{ backgroundColor: 'white', color: 'brand.900'}}
+            borderRadius="full"
+            bg="white"
+            color="brand.900"
             px="2"
-            borderRadius="10"
+            mb="4"
+            border="1px solid"
+            borderColor="brand.900"
             onClick={() => navigate(`/zbros/${friend.id}`)} /* @TODO handle that better + prevent it if not friend yet!! */
         >
-            <Avatar name={friend.username} src={friend.avatar} />
+            <Avatar name={friend.username} src={friend.avatar} size="sm" />
 
             <Box p="1" flex="auto">
                 <Box display='flex' alignItems='baseline'>
-                    {/* <Badge borderRadius='full' px='2' colorScheme='orange'>
-                        New
-                    </Badge> */}
-                    &nbsp;
                     {friend.username}
                 </Box>
             </Box>
 
-            <Box px="1" py="6">
+            <Box px="1" py="1">
                 {children}
             </Box>
         </Stack>

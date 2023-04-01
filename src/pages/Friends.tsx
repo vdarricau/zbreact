@@ -2,6 +2,7 @@ import {
     Box, Button, Container, Heading, SimpleGrid, useDisclosure, useToast
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { FaCross, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Friend from "../@ts/Friend";
 import FriendItem from "../components/FriendItem";
@@ -54,21 +55,23 @@ const Friends = () => {
                 </Box>
                 <Box py={5}>
                     { friends.length !== 0 ? <>
-                        <Heading as='h1' size='2xl' marginBottom="3">
-                            ZBROS
+                        <Heading as='h1' size='lg' marginBottom="3">
+                            Zbros ({friends.length})
                         </Heading>
-                        <SimpleGrid minChildWidth='320px'>
+                        <Box>
                             { friends.map((friend) => {
                                 return (
                                     <FriendItem friend={friend} key={friend.id}>
-                                        <Button borderRadius="50" fontWeight="bold" onClick={(e) => {
+                                        <Button p="0" borderRadius="50" fontWeight="bold" onClick={(e) => {
                                             e.stopPropagation();
-                                            openSendZbraModal(friend);
-                                        }}>Zbra</Button>
+                                            alert('cannot do that yet bro');
+                                        }}>
+                                            <FaTrash />
+                                        </Button>
                                     </FriendItem>
                                 )
                             })}
-                        </SimpleGrid>
+                        </Box>
                     </> : <>
                         <Heading as='h3' size='2xl' marginBottom="3">
                             No zbros yet!
