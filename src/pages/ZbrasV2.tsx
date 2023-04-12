@@ -8,7 +8,7 @@ import FriendItemV2 from "../components/FriendItemV2";
 import useApi from "../hooks/useApi";
 
 const Zbras = () => {
-    /* @TODO quand on a pas de Zbro, on est redirigé vers la page d'ajour de Zbro */
+    /* @TODO quand on a pas de Zbro, on est redirigé vers la page d'ajout de Zbro */
 
     const [feeds, setFeeds] = useState<Array<Feed>>([]);
     const { getFeedsApi } = useApi();
@@ -45,18 +45,20 @@ const Zbras = () => {
                     borderRadius="3xl"
                 >
                     <CardBody>
-                        { feeds.length !== 0 &&
-                            <Grid py="5" templateColumns={{base: "repeat(2, 1fr)", sm: "repeat(3, 1fr)"}}>
-                                { feeds.map((feed) => {
+                        <Grid py="5" templateColumns={{base: "repeat(2, 1fr)", sm: "repeat(3, 1fr)"}}>
+                            { feeds.length ?
+                                feeds.map((feed) => {
                                     return (
                                         <FriendItemV2
-                                            friend={feed.friend}
-                                            key={feed.zbra.id}
+                                            feed={feed}
+                                            key={feed.id}
                                         />
                                     );
-                                })}
-                            </Grid>
-                        }
+                                })
+                            : (
+                                <FriendItemV2 feed={null} />
+                            )}
+                        </Grid>
                     </CardBody>
                 </Card>
                 <HStack py="5" justifyContent="center">

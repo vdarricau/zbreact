@@ -1,37 +1,57 @@
 import { Avatar, AvatarBadge, Box } from "@chakra-ui/react";
-import { Link, useNavigate } from "react-router-dom";
-import Friend from "../@ts/Friend";
+import { Link } from "react-router-dom";
+import Feed from "../@ts/Feed";
 
-const FriendItemV2 = ({ friend}: { friend: Friend }) => {
-    const navigate = useNavigate();
+const FriendItemV2 = ({ feed }: { feed: Feed|null }) => {
+    /* @TODO implement websocket here for notification bubble */
+
+    if (feed === null) {
+        return (
+            <Link to="/zbros/add">
+            <Box 
+                py="3"
+                overflow="hidden"
+                _hover={{animation: "shake 1s", animationIterationCount: "inifinite"}}
+            >
+                <Avatar size="lg">
+                </Avatar>
+                <Box color="brand.900" fontWeight="medium">
+                    Add zbros
+                </Box>
+            </Box>
+            </Link>
+        )
+    }
 
     return (
         <Link
-            to={`/zbros/${friend.id}`}
+            to={`/zbros/${feed.friend.id}`}
         >
             <Box 
                 py="3"
                 overflow="hidden"
                 _hover={{animation: "shake 1s", animationIterationCount: "inifinite"}}
             >
-                <Avatar name={friend.username} src={friend.avatar} size="lg">
-                    <AvatarBadge
-                        bgColor="brand.900"
-                        placement="top-end"
-                        color="white"
-                        borderRadius="full"
-                        fontSize="md"
-                        fontWeight="normal"
-                        p="2"
-                        border="none"
-                        w="8"
-                        h="8"
-                    >
-                        {Math.floor(Math.random() * 15)} {/* @TODO unread zbra between friend and user */}
-                    </AvatarBadge>
+                <Avatar name={feed.friend.username} src={feed.friend.avatar} size="lg">
+                    { feed.countUnreadZbras && 
+                        <AvatarBadge
+                            bgColor="brand.900"
+                            placement="top-end"
+                            color="white"
+                            borderRadius="full"
+                            fontSize="md"
+                            fontWeight="normal"
+                            p="2"
+                            border="none"
+                            w="8"
+                            h="8"
+                        >
+                            {feed.countUnreadZbras}
+                        </AvatarBadge>
+                    }
                 </Avatar>
                 <Box color="brand.900" fontWeight="medium">
-                    {friend.username}
+                    {feed.friend.username}
                 </Box>
             </Box>
         </Link>

@@ -30,7 +30,7 @@ const NavUser = ({ isAuthenticated, user }: { isAuthenticated: boolean, user: Us
 
   useEffect(() => {
     if (isAuthenticated) {
-      setInterval(getFriendRequestsNotifications, 2000); /* @TODO broadcast it, use websocket */
+      setInterval(getFriendRequestsNotifications, 20000); /* @TODO broadcast it, use websocket */
     }
   }, [isAuthenticated]);
 

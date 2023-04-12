@@ -5,5 +5,6 @@ export default interface Feed {
     id: string;
     friend: Friend;
     zbra: Zbra;
+    countUnreadZbras: number;
     updatedAt: string;
 }
