@@ -136,10 +136,10 @@ const Login = () => {
                                         defaultChecked
                                         fontWeight="semibold"
                                         fontSize="md"
-                                        size='md'
-                                        bg='white'
-                                        border='lightBlue'
-                                        colorScheme="white"
+                                        size="md"
+                                        bg="white"
+                                        color="brand.900"
+                                        colorScheme="brand"
                                     >Remember me
                                     </Checkbox>
                                     <Button

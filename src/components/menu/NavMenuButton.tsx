@@ -2,7 +2,7 @@ import { Button, ButtonProps } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
-export const NavLink = ({ children, link }: { children: ReactNode, link: string }) => (
+export const NavLink = ({ children, link, text = false }: { children: ReactNode, link: string, text?: boolean }) => (
     <Link to={link}>
       <NavMenuButton
         rounded="full"
@@ -12,6 +12,7 @@ export const NavLink = ({ children, link }: { children: ReactNode, link: string 
           textDecoration: "none",
           bg: "gray.300",
         }}
+        px={text ? 3 : 0}
       >
         {children}
       </NavMenuButton>

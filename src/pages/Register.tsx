@@ -124,7 +124,7 @@ const Register = () => {
                                 color="brand.100"
                                 textDecoration="underline"
                                 _hover={{color: "brand.500"}}
-                                onClick={() => navigate('/register')}
+                                onClick={() => navigate('/login')}
                             >
                                 Sign In
                             </Button>

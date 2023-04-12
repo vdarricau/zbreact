@@ -21,7 +21,7 @@ const PasswordField = ({ error } : { error: Array<string> }) => {
   return (
     <FormControl isInvalid={error.length !== 0}>
       <InputGroup>
-        <InputRightElement>
+        <InputRightElement h="100%">
           <IconButton
             variant="link"
             aria-label={isOpen ? 'Mask password' : 'Reveal password'}
