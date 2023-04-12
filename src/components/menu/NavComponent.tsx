@@ -4,7 +4,7 @@ import {
   MenuButton, MenuDivider, MenuItem, MenuList, Stack,
   useColorMode, useColorModeValue
 } from '@chakra-ui/react';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useAuthUser, useIsAuthenticated } from 'react-auth-kit';
 import { FaUserPlus } from 'react-icons/fa';
 import {
@@ -12,10 +12,28 @@ import {
 } from "react-router-dom";
 import User from '../../@ts/User';
 import zbraLogoDark from '../../assets/images/zbra_logo_dark.png';
+import useApi from '../../hooks/useApi';
 import { NavLink, NavMenuButton } from './NavMenuButton';
 import NotificationNavMenu from './NotificationNavMenu';
 
 const NavUser = ({ isAuthenticated, user }: { isAuthenticated: boolean, user: User|null }) => {
+  const { getFriendRequestsNotificationsApi } = useApi();
+  const [friendRequestNumber, setFriendRequestNumber] = useState(0);
+
+  const getFriendRequestsNotifications = async () => {
+    const response = await getFriendRequestsNotificationsApi();
+
+    console.log(response.data);
+
+    setFriendRequestNumber(response.data.length);
+  }
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      setInterval(getFriendRequestsNotifications, 2000); /* @TODO broadcast it, use websocket */
+    }
+  }, [isAuthenticated]);
+
   if (null === user || false === isAuthenticated) {
     return (
       <>
@@ -31,9 +49,25 @@ const NavUser = ({ isAuthenticated, user }: { isAuthenticated: boolean, user: Us
 
   return (
     <>
-      <NavLink link="/zbros/add">
-        <FaUserPlus />
-      </NavLink>
+      <RouteLink to="/zbros/add">
+        <NavMenuButton
+          _after={ friendRequestNumber ? {
+            content: `"${friendRequestNumber}"`,
+            position: "absolute",
+            top: "-5px",
+            right: "-5px",
+            bg: "#FC4545",
+            fontSize: "xs",
+            borderRadius: "full",
+            color: "white",
+            height: "20px",
+            width: "20px",
+            p: "3px"
+        } : {}}
+        >
+          <FaUserPlus />
+        </NavMenuButton>
+      </RouteLink>
       <NotificationNavMenu />
       <Menu
         autoSelect={false}

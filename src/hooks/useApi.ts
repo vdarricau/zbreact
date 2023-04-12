@@ -101,10 +101,19 @@ export default function useApi() {
         })
     }
 
+    const getFriendRequestsNotificationsApi = () => {
+        return api.get('/notifications/friend-requests', {
+            headers: {
+                Authorization: authHeader(),
+            }
+        })
+    }
+
     return { 
         loginApi, registerApi,
         findUsersApi, getFriendApi, getFriendsApi,
         sendFriendRequestApi, getFriendRequestsApi, acceptFriendRequestApi,
-        createZbraApi, getFeedsApi, getExchangedZbrasApi
+        createZbraApi, getFeedsApi, getExchangedZbrasApi,
+        getFriendRequestsNotificationsApi
     };
 }
