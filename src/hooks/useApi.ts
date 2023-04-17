@@ -1,10 +1,9 @@
-import { useAuthHeader, useAuthUser } from "react-auth-kit";
+import { useAuthHeader } from "react-auth-kit";
 import Friend from "../@ts/Friend";
 import FriendRequest from "../@ts/FriendRequest";
 import api from "../api/api";
 
 export default function useApi() {
-    const user = useAuthUser()();
     const authHeader = useAuthHeader();
     
     const loginApi = (email: string, password: string) => {
