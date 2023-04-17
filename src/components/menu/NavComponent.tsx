@@ -23,14 +23,12 @@ const NavUser = ({ isAuthenticated, user }: { isAuthenticated: boolean, user: Us
   const getFriendRequestsNotifications = async () => {
     const response = await getFriendRequestsNotificationsApi();
 
-    console.log(response.data);
-
     setFriendRequestNumber(response.data.length);
   }
 
   useEffect(() => {
     if (isAuthenticated) {
-      setInterval(getFriendRequestsNotifications, 20000); /* @TODO broadcast it, use websocket */
+      // setInterval(getFriendRequestsNotifications, 20000); /* @TODO broadcast it, use websocket */
     }
   }, [isAuthenticated]);
 
