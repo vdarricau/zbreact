@@ -5,7 +5,7 @@ import api from "../api/api";
 
 export default function useApi() {
     const authHeader = useAuthHeader();
-    
+
     const loginApi = (email: string, password: string) => {
         return api.post('/login', {
             email: email,

@@ -25,7 +25,9 @@ export default function Conversation() {
     const { listenZbraConversation } = useSocket();
 
     listenZbraConversation(friendId, (payload) => {
-        console.log(payload);
+        const zbra = payload.data as Zbra;
+
+        setZbras([...zbras, zbra]);
     })
 
     const navigate = useNavigate();

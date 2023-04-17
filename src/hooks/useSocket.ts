@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useAuthHeader, useAuthUser } from 'react-auth-kit';
-import Friend from '../@ts/Friend';
 import User from '../@ts/User';
 import { createSocketConnection } from '../api/pusher';
 
@@ -28,7 +27,7 @@ export default function useSocket() {
   const user = useAuthUser()() as User|null;
 
   const listenZbraConversation = (friendId: string, callBack: (payload: any) => void) => {
-    listenEvent(`zbras/${friendId}/${user?.id}`, 'ZbraSentEvent', callBack);
+    listenEvent(`zbras.${friendId}.${user?.id}`, 'ZbraSentEvent', callBack);
   }
   
   return {

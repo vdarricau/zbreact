@@ -33,7 +33,7 @@ const FriendItemV2 = ({ feed }: { feed: Feed|null }) => {
                 _hover={{animation: "shake 1s", animationIterationCount: "inifinite"}}
             >
                 <Avatar name={feed.friend.username} src={feed.friend.avatar} size="lg">
-                    { feed.countUnreadZbras && 
+                    { 0 !== feed.countUnreadZbras && 
                         <AvatarBadge
                             bgColor="brand.900"
                             placement="top-end"
