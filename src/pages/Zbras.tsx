@@ -1,16 +1,16 @@
-import { Box, Button, Container, Heading, Stack } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, Container, Grid, Heading, HStack, Image } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useAuthUser } from "react-auth-kit";
-import { BiBomb, BiRocket } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import ReactTimeAgo from "react-time-ago";
+import TypeWriter from 'typewriter-effect';
 import Feed from "../@ts/Feed";
-import FriendItem from "../components/FriendItem";
+import zbraLogo from "../assets/images/zbra_logo_dark.png";
+import FeedItem from "../components/FeedItem";
 import useApi from "../hooks/useApi";
 
 const Zbras = () => {
+    /* @TODO quand on a pas de Zbro, on est redirigé vers la page d'ajout de Zbro */
+
     const [feeds, setFeeds] = useState<Array<Feed>>([]);
-    const user = useAuthUser()();
     const { getFeedsApi } = useApi();
 
     const getFeeds = async () => {
@@ -30,44 +30,53 @@ const Zbras = () => {
     return (
         <>
             <Container>
-                <Box py="5">
+                <Heading py="8" fontSize="2xl">
+                    Feels like a good day to send a: <Box><TypeWriter options={{
+                        strings: ['zbracadabra.', 'zbracheotomy.', 'little message of zbrhope.'],
+                        autoStart: true,
+                        loop: true,
+                    }}/></Box>
+                </Heading>
+                <Card
+                    textAlign="center"
+                    bg="white" 
+                    boxShadow="3px 3px 7px 0px"
+                    color="brand.900"
+                    borderRadius="3xl"
+                >
+                    <CardBody>
+                        <Grid py="5" templateColumns={{base: "repeat(2, 1fr)", sm: "repeat(3, 1fr)"}}>
+                            { feeds.length ?
+                                feeds.map((feed) => {
+                                    return (
+                                        <FeedItem
+                                            feed={feed}
+                                            key={feed.id}
+                                        />
+                                    );
+                                })
+                            : (
+                                <FeedItem feed={null} />
+                            )}
+                        </Grid>
+                    </CardBody>
+                </Card>
+                <HStack py="5" justifyContent="center">
+                    {/* TODO rendre le logo un peu organique, qu'il bouge de temps en temps, et quand tu cliques dessus ça fait grandir la liste de zbro au dessus */}
                     <Link to={'/zbra/send'}>
                         <Button 
-                            w="100%" 
                             h="70px"
-                            fontSize="2xl"
-                            colorScheme="orange"
-                            transition="all 0.5s ease-out"
+                            w="70px"
+                            p="0"
+                            borderRadius="full"
+                            transition="all 0.1s ease-out"
+                            bgColor="brand.900"
+                            _hover={{bgColor: "brand.500"}}
                         >
-                            SEND ZBRAAAA
+                            <Image src={zbraLogo} maxW="100%" />
                         </Button>
                     </Link>
-                </Box>
-                { feeds.length !== 0 &&
-                    <Box py="5">
-                        { feeds.map((feed) => {
-                            let isSender = true;
-                            let date = new Date(feed.updatedAt);
-
-                            if (feed.zbra.receiver.id === user?.id) {
-                                isSender = false;
-                            }
-
-                            return (
-                                <FriendItem friend={feed.friend} key={feed.zbra.id}>
-                                    <Stack direction="row">
-                                        <Box>
-                                            <ReactTimeAgo date={date} locale="en-US"/>
-                                        </Box>
-                                        <Box>
-                                            { isSender ? <BiRocket fontSize="20px" /> : <BiBomb fontSize="20px" />}
-                                        </Box>
-                                    </Stack>
-                                </FriendItem>
-                            )
-                        })}
-                    </Box>
-                }
+                </HStack>
             </Container>
         </>
     );

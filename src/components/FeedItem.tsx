@@ -2,7 +2,7 @@ import { Avatar, AvatarBadge, Box } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import Feed from "../@ts/Feed";
 
-const FriendItemV2 = ({ feed }: { feed: Feed|null }) => {
+const FeedItem = ({ feed }: { feed: Feed|null }) => {
     /* @TODO implement websocket here for notification bubble */
 
     if (feed === null) {
@@ -58,4 +58,4 @@ const FriendItemV2 = ({ feed }: { feed: Feed|null }) => {
     )
 }
 
-export default FriendItemV2;
+export default FeedItem;
