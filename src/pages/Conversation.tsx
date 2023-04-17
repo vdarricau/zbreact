@@ -6,6 +6,7 @@ import Friend from "../@ts/Friend";
 import Zbra from "../@ts/Zbra";
 import TextareaAutosize from "../components/TextareaAutosize";
 import useApi from "../hooks/useApi";
+import useSocket from "../hooks/useSocket";
 
 const AlwaysScrollToBottom = () => {
     const elementRef = useRef<HTMLDivElement>(null);
@@ -16,12 +17,18 @@ const AlwaysScrollToBottom = () => {
 
 type FriendPageParams = { friendId: string };
 
-export default function FriendPage() {
-    let { friendId } = useParams<FriendPageParams>() as FriendPageParams;
-    let [friend, setFriend] = useState<Friend|null>(null);
-    let [zbras, setZbras] = useState<Array<Zbra>>([]);
-    let { createZbraApi, getFriendApi, getExchangedZbrasApi } = useApi()
-    let navigate = useNavigate();
+export default function Conversation() {
+    const { friendId } = useParams<FriendPageParams>() as FriendPageParams;
+    const [friend, setFriend] = useState<Friend|null>(null);
+    const [zbras, setZbras] = useState<Array<Zbra>>([]);
+    const { createZbraApi, getFriendApi, getExchangedZbrasApi } = useApi();
+    const { listenZbraConversation } = useSocket();
+
+    listenZbraConversation(friendId, (payload) => {
+        console.log(payload);
+    })
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         getFriend();
