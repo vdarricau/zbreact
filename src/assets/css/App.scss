@@ -27,3 +27,23 @@ $darkPurple: #6850BF;
     90% { transform: translate(1px, 2px) rotate(0deg); }
     100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
+
+.x {
+    animation: x 2s linear infinite alternate;
+}
+  
+.y {
+    animation: y 5s linear infinite alternate;
+}
+
+@keyframes x {
+    100% {
+        transform: translateX( calc(100vw - 14rem) );
+    }
+}
+  
+@keyframes y {
+    100% {
+      transform: translateY( calc(100vh - 14rem) );
+    }
+}

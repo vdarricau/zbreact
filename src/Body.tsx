@@ -1,28 +1,84 @@
 import { RequireAuth } from 'react-auth-kit';
 import { Route, Routes } from 'react-router-dom';
-import FindFriends from './pages/FindFriends';
-import Conversation from './pages/Conversation';
-import Friends from './pages/Friends';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Logout from './pages/Logout';
-import NotFound from './pages/NotFound';
-import Register from './pages/Register';
-import SendZbra from './pages/SendZbra';
+import { lazy, Suspense } from 'react';
+import Loading from './components/Loading';
+
+const Home = lazy(() => import('./pages/Home'));
+const Login = lazy(() => import('./pages/Login'));
+const Register = lazy(() => import('./pages/Register'));
+const Logout = lazy(() => import('./pages/Logout'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+const Friends = lazy(() => import('./pages/Friends'));
+const FindFriends = lazy(() => import('./pages/FindFriends'));
+const Conversation = lazy(() => import('./pages/Conversation'));
+const SendZbra = lazy(() => import('./pages/SendZbra'));
+
+const AuthorizedRoute = ({children} : { children: JSX.Element}) => {
+    return <Suspense fallback={<Loading />}>
+        <RequireAuth loginPath='/login'>
+            {children}
+        </RequireAuth>
+    </Suspense>
+}
 
 const Body = () => {
     return (
         <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
-            <Route path='/logout' element={<Logout />} />
-            <Route path='/zbros' element={<RequireAuth loginPath='/login'><Friends /></RequireAuth>} />
-            <Route path='/zbros/add' element={<RequireAuth loginPath='/login'><FindFriends /></RequireAuth>} />
-            <Route path='/zbros/:friendId' element={<RequireAuth loginPath='/login'><Conversation /></RequireAuth>} />
-            <Route path='/zbra/send' element={<RequireAuth loginPath='/login'><SendZbra /></RequireAuth>} />
-            
+            {/* AUTH */}
+            <Route path='/login' element={
+                <Suspense fallback={<Loading />}>
+                    <Login />
+                </Suspense>
+            } />
+            <Route path='/register' element={
+                <Suspense fallback={<Loading />}>
+                    <Register />
+                </Suspense>
+            } />
+            <Route path='/logout' element={
+                <Suspense fallback={<Loading />}>
+                    <Logout />
+                </Suspense>
+            } />
+
+            <Route path='/loading' element={
+                <Suspense fallback={<Loading />}>
+                    <Loading />
+                </Suspense>
+            } />
+
+            {/* HOME */}
+
+            <Route index element={
+                <Suspense fallback={<Loading />}>
+                    <Home />
+                </Suspense>
+            } />
+
             <Route path='*' element={<NotFound />}/>
+
+            {/* AUTHORIZED ROUTES */}
+
+            <Route path='/zbros' element={
+                <AuthorizedRoute>
+                    <Friends />
+                </AuthorizedRoute>
+            } />
+            <Route path="/zbros/add" element={
+                <AuthorizedRoute>
+                    <FindFriends />
+                </AuthorizedRoute>
+            } />
+            <Route path="/zbros/:friendId" element={
+                <AuthorizedRoute>
+                    <Conversation />
+                </AuthorizedRoute>
+            } />
+            <Route path="/zbra/send" element={
+                <AuthorizedRoute>
+                    <SendZbra />
+                </AuthorizedRoute>
+            } />
         </Routes>
     );
 }
