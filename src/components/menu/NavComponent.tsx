@@ -124,7 +124,7 @@ export default function NavComponent() {
         <Container px="5">
           <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
             <RouteLink to="/">
-              <Image src={zbraLogoDark} w="20" />
+              <Image src={zbraLogoDark} w="20" alt="Zbra logo" />
             </RouteLink>
 
             <Flex alignItems={'center'}>

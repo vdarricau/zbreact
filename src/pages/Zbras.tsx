@@ -73,7 +73,7 @@ const Zbras = () => {
                             bgColor="brand.900"
                             _hover={{bgColor: "brand.500"}}
                         >
-                            <Image src={zbraLogo} maxW="100%" />
+                            <Image src={zbraLogo} alt="Zbra logo" maxW="100%" />
                         </Button>
                     </Link>
                 </HStack>

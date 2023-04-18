@@ -11,5 +11,5 @@ export default function Logo(props: ImageProps) {
         logo = zbraLogoDark; 
     }
 
-    return <Image src={logo} {...props} />
+    return <Image src={logo} alt="Zbra logo" {...props} />
 }
