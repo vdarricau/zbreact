@@ -40,7 +40,7 @@ export default function NotificationNavMenu() {
         </MenuButton>
         <MenuList
             alignItems={'center'}
-            w={{base: "100vw", sm: "auto"}}
+            // w={{base: "100vw", sm: "auto"}}
         >
         <MenuItem>
             Some notification

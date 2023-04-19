@@ -1,9 +1,10 @@
-import { Avatar, Button, Container, Flex, Grid, Text } from "@chakra-ui/react";
+import { Button, Container, Flex, Grid } from "@chakra-ui/react";
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
-import { FaChevronLeft } from 'react-icons/fa';
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Friend from "../@ts/Friend";
 import Zbra from "../@ts/Zbra";
+import ConversationHeader from "../components/Conversation/ConversationHeader";
+import ConversationBody from "../components/Conversation/ConversationsBody";
 import TextareaAutosize from "../components/TextareaAutosize";
 import useApi from "../hooks/useApi";
 import useSocket from "../hooks/useSocket";
@@ -19,18 +20,25 @@ type FriendPageParams = { friendId: string };
 
 export default function Conversation() {
     const { friendId } = useParams<FriendPageParams>() as FriendPageParams;
+    
     const [friend, setFriend] = useState<Friend|null>(null);
-    const [zbras, setZbras] = useState<Array<Zbra>>([]);
+    const [zbras, setZbras] = useState<Array<Zbra>|null>(null);
+    const [inputMessage, setInputMessage] = useState('');
+    const [ isLoading, setIsLoading ] = useState<boolean>(false);
+
     const { createZbraApi, getFriendApi, getExchangedZbrasApi } = useApi();
     const { listenZbraConversation } = useSocket();
 
     listenZbraConversation(friendId, (payload) => {
+        if (null === zbras) {
+            return;
+        }
+
         const zbra = payload.data as Zbra;
 
         setZbras([...zbras, zbra]);
     })
 
-    const navigate = useNavigate();
 
     useEffect(() => {
         getFriend();
@@ -55,18 +63,22 @@ export default function Conversation() {
         }
     }
 
-    const [inputMessage, setInputMessage] = useState('');
-
     const handleSendMessage = async () => {
         if (!inputMessage.trim().length) {
             return;
         }
+
+        if (null === zbras) {
+            return;
+        }
     
         try {
+            setIsLoading(true);
             const response = await createZbraApi(friendId, inputMessage);
 
             setZbras([...zbras, response.data]);
             setInputMessage('');
+            setIsLoading(false);
         } catch(error) {
 
         }
@@ -75,31 +87,16 @@ export default function Conversation() {
     return (
         <>
             <Container
-                py="5"
+                py="0"
                 px="0"
+                pb="5"
                 h="100%"
             >
-                <Grid gridTemplateRows="auto 1fr auto" maxH="100%">
-                    <Flex 
-                        w="100%" 
-                        alignItems="center"
-                        justifyContent="center"
-                        position="relative"
-                    >
-                        <Button 
-                            onClick={() => (navigate(-1))}
-                            bg="none"
-                            _hover={{bg: "none"}}
-                            position="absolute"
-                            left="5"
-                        >
-                            <FaChevronLeft size="29" />
-                        </Button>
-                        <Avatar name={friend?.username} src={friend?.avatar} size="sm" />
-                        <Text fontSize="lg" fontWeight="semibold" pl="2">
-                            { friend?.username }
-                        </Text>
-                    </Flex>
+                <Grid 
+                    gridTemplateRows="auto 1fr auto"
+                    h="100%"
+                >
+                    <ConversationHeader friend={friend} />
 
                     <Flex
                         w="100%"
@@ -107,56 +104,28 @@ export default function Conversation() {
                         flexDirection="column"
                         p="3"
                     >
-                        {zbras.map((zbra) => {
-                            if (zbra.receiver.id === friend?.id) {
-                                return (
-                                    <Flex key={zbra.id} w="100%" justify="flex-end">
-                                        <Flex
-                                            bg="brand.900"
-                                            color="white"
-                                            borderRadius="md"
-                                            minW="100px"
-                                            maxW="350px"
-                                            my="1"
-                                            p="3"
-                                        >
-                                            <Text whiteSpace="pre-line">{zbra.message}</Text>
-                                        </Flex>
-                                    </Flex>
-                                );
-                            } else {
-                                return (
-                                    <Flex key={zbra.id} w="100%">
-                                        <Avatar name={zbra.sender.username} src={zbra.sender.avatar} />
-                                        <Flex
-                                            bg="white"
-                                            color="black"
-                                            border="1px solid #EEEEEE"
-                                            borderRadius="md"
-                                            minW="100px"
-                                            maxW="350px"
-                                            my="1"
-                                            mx="2"
-                                            p="3"
-                                        >
-                                            <Text whiteSpace="pre-line">{zbra.message}</Text>
-                                        </Flex>
-                                    </Flex>
-                                );
-                            }
-                        })}
+                        <ConversationBody zbras={zbras} friend={friend} />
                         <AlwaysScrollToBottom />
                     </Flex>
 
-                    <Flex w="100%" alignItems="flex-end" position="relative">
+                    <Flex 
+                        w="100%"
+                        alignItems="flex-end"
+                        position="relative"
+                        overflowX="hidden"
+                        pl="4"
+                    >
                         <TextareaAutosize
-                            placeholder="Type Something..."
+                            placeholder="Zbraaaaaa..."
                             borderRadius="md"
                             marginRight="50px"
+                            py="3"
                             paddingRight="5"
                             border="1px solid #EEEEEE"
                             value={inputMessage}
-                            _focusVisible={{border: "none", boxShadow: "none"}}
+                            _focusVisible={{ boxShadow: "none" }}
+                            borderLeftRadius="3xl"
+                            borderRightRadius="md"
                             onKeyPress={(e: KeyboardEvent) => {
                                 if (e.key === "Enter" && !e.shiftKey) {
                                     handleSendMessage();
@@ -166,15 +135,17 @@ export default function Conversation() {
                         />
                         <Button
                             position="absolute"
+                            py="6"
                             right="0"
                             bg="brand.900"
                             color="white"
-                            borderLeftRadius="full"
-                            borderRightRadius="full"
+                            borderLeftRadius="3xl"
+                            borderRightRadius="sm"
                             _hover={{
                                 bg: "brand.500",
                             }}
                             onClick={handleSendMessage}
+                            isLoading={isLoading}
                         >
                             Send
                         </Button>

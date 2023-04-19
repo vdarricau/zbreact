@@ -24,6 +24,7 @@ const TextareaAutosize = (props: TextareaProps) => {
             style={{overflow: "hidden"}}
             ref={textAreaRef}
             rows={1}
+            minH="3rem"
             {...props} />
     )
 };

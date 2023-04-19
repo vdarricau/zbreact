@@ -12,8 +12,6 @@ declare global {
 window.Pusher = Pusher;
 
 export function createSocketConnection(token: string) {
-  console.log('blablou');
-
   if (!window.Echo) {
     window.Echo = new Echo({
       broadcaster: "pusher",

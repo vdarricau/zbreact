@@ -86,7 +86,7 @@ const NavUser = ({ isAuthenticated, user }: { isAuthenticated: boolean, user: Us
         </MenuButton>
         <MenuList
           alignItems={'center'}
-          w={{base: "100vw", sm: "auto"}}
+          // w={{base: "100vw", sm: "auto"}}
         >
           <Center>
             <Flex alignItems="center" color="white">
