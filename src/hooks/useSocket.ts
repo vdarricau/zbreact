@@ -20,7 +20,7 @@ const listenEvent = (channel: string, event: string, callBack: (payload: any) =>
     createSocketConnection(authHeader());
     
     return listen(callBack, channel, event);
-  });
+  }, []);
 };
 
 export default function useSocket() {
