@@ -2,6 +2,30 @@ import { Avatar, Flex, Skeleton, Stack, Text } from "@chakra-ui/react";
 import Friend from "../../@ts/Friend";
 import Zbra from "../../@ts/Zbra";
 
+function Message(
+    {message, justify, bg, color, border, children}: 
+    {message: string, justify: string, bg: string, color: string, border?: string, children?: JSX.Element}
+) {
+    return (
+        <Flex w="100%" justify={justify}>
+            {children}
+            <Flex
+                bg={bg}
+                color={color}
+                border={border}
+                borderRadius="md"
+                minW="100px"
+                maxW="350px"
+                my="1"
+                p="3"
+                wordBreak="break-all"
+            >
+                <Text whiteSpace="pre-line">{message}</Text>
+            </Flex>
+        </Flex>
+    )
+}
+
 export default function ConversationBody({zbras, friend} : {zbras: Zbra[]|null, friend: Friend|null}) {
     if (null === zbras) {
         return <SkeletonStack />
@@ -12,40 +36,28 @@ export default function ConversationBody({zbras, friend} : {zbras: Zbra[]|null, 
             {zbras.map((zbra) => {
                 if (zbra.receiver.id === friend?.id) {
                     return (
-                        <Flex key={zbra.id} w="100%" justify="flex-end">
-                            <Flex
-                                bg="brand.900"
-                                color="white"
-                                borderRadius="md"
-                                minW="100px"
-                                maxW="350px"
-                                my="1"
-                                p="3"
-                            >
-                                <Text whiteSpace="pre-line">{zbra.message}</Text>
-                            </Flex>
-                        </Flex>
-                    );
-                } else {
-                    return (
-                        <Flex key={zbra.id} w="100%">
-                            <Avatar name={zbra.sender.username} src={zbra.sender.avatar} />
-                            <Flex
-                                bg="white"
-                                color="black"
-                                border="1px solid #EEEEEE"
-                                borderRadius="md"
-                                minW="100px"
-                                maxW="350px"
-                                my="1"
-                                mx="2"
-                                p="3"
-                            >
-                                <Text whiteSpace="pre-line">{zbra.message}</Text>
-                            </Flex>
-                        </Flex>
+                        <Message
+                            key={zbra.id}
+                            message={zbra.message}
+                            justify="flex-end"
+                            bg="brand.900"
+                            color="white"
+                        />
                     );
                 }
+                
+                return (
+                    <Message 
+                        key={zbra.id}
+                        message={zbra.message}
+                        justify="flex-start"
+                        bg="white"
+                        color="black"
+                        border="1px solid #EEEEEE"
+                    >
+                        <Avatar name={zbra.sender.username} src={zbra.sender.avatar} mr="2" />
+                    </Message>
+                );
             })}
         </>
     )

@@ -37,8 +37,7 @@ export default function Conversation() {
         const zbra = payload.data as Zbra;
 
         setZbras([...zbras, zbra]);
-    })
-
+    });
 
     useEffect(() => {
         getFriend();
