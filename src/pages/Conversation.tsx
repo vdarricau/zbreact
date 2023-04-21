@@ -1,5 +1,5 @@
 import { Container, Flex, Grid } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Friend from "../@ts/Friend";
 import Zbra from "../@ts/Zbra";
@@ -9,12 +9,7 @@ import ConversationSendMessage from "../components/Conversation/ConversationSend
 import useApi from "../hooks/useApi";
 import useSocket from "../hooks/useSocket";
 
-const AlwaysScrollToBottom = () => {
-    const elementRef = useRef<HTMLDivElement>(null);
-    useEffect(() => elementRef.current?.scrollIntoView());
-    
-    return <div ref={elementRef} />;
-  };
+const MemoHeader = memo(ConversationHeader);
 
 type FriendPageParams = { friendId: string };
 
@@ -68,7 +63,7 @@ export default function Conversation() {
                     gridTemplateRows="auto 1fr auto"
                     h="100%"
                 >
-                    <ConversationHeader friend={friend} />
+                    <MemoHeader friend={friend} />
 
                     <Flex
                         w="100%"
@@ -86,3 +81,10 @@ export default function Conversation() {
         </>
     )
 }
+
+const AlwaysScrollToBottom = () => {
+    const elementRef = useRef<HTMLDivElement>(null);
+    useEffect(() => elementRef.current?.scrollIntoView());
+    
+    return <div ref={elementRef} />;
+};
