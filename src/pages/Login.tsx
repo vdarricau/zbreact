@@ -51,8 +51,12 @@ const Login = () => {
 
     return (
         <>
-            <Container maxW="sm">
-                <Logo py="5" w="14rem" margin="auto"/>
+            <Container
+                maxW="sm"
+                height="100%"
+                overflow="hidden"
+            >
+                <Logo py="5" w="14rem" h="11.83rem" margin="auto"/>
                 
                 <Card 
                     align="center" 

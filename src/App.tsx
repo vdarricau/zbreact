@@ -6,9 +6,9 @@ import NavComponent from './components/Nav/NavComponent';
 
 function App() {
   return (
-    <Box h="100vh" display="grid" gridTemplateRows="auto 1fr auto">
+    <Box h="100vh" display="grid" gridTemplateRows="auto 1fr">
       <NavComponent />
-      <Box className='App' overflowY="auto">
+      <Box className='App' overflowY="auto" h="100%">
         <Body />
       </Box>
       {/* <FooterComponent /> */}
