@@ -1,11 +1,11 @@
-import { Button, Container, Flex, Grid } from "@chakra-ui/react";
-import { KeyboardEvent, useEffect, useRef, useState } from "react";
+import { Container, Flex, Grid } from "@chakra-ui/react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Friend from "../@ts/Friend";
 import Zbra from "../@ts/Zbra";
 import ConversationHeader from "../components/Conversation/ConversationHeader";
 import ConversationBody from "../components/Conversation/ConversationsBody";
-import TextareaAutosize from "../components/TextareaAutosize";
+import ConversationSendMessage from "../components/Conversation/ConversationSendMessage";
 import useApi from "../hooks/useApi";
 import useSocket from "../hooks/useSocket";
 
@@ -23,26 +23,18 @@ export default function Conversation() {
     
     const [friend, setFriend] = useState<Friend|null>(null);
     const [zbras, setZbras] = useState<Array<Zbra>|null>(null);
-    const [inputMessage, setInputMessage] = useState('');
-    const [ isLoading, setIsLoading ] = useState<boolean>(false);
 
-    const { createZbraApi, getFriendApi, getExchangedZbrasApi } = useApi();
+    const { getFriendApi, getExchangedZbrasApi } = useApi();
     const { listenZbraConversation } = useSocket();
-
-    listenZbraConversation(friendId, (payload) => {
-        if (null === zbras) {
-            return;
-        }
-
-        const zbra = payload.data as Zbra;
-
-        setZbras([...zbras, zbra]);
-    });
 
     useEffect(() => {
         getFriend();
         getExchangedZbras();
     }, []);
+
+    listenZbraConversation(friendId, (payload) => {
+        setZbras([...(zbras ?? []), payload.data]);
+    });
 
     const getFriend = async () => {
         try {
@@ -62,26 +54,7 @@ export default function Conversation() {
         }
     }
 
-    const handleSendMessage = async () => {
-        if (!inputMessage.trim().length) {
-            return;
-        }
-
-        if (null === zbras) {
-            return;
-        }
-    
-        try {
-            setIsLoading(true);
-            const response = await createZbraApi(friendId, inputMessage);
-
-            setZbras([...zbras, response.data]);
-            setInputMessage('');
-            setIsLoading(false);
-        } catch(error) {
-
-        }
-    };
+    const addZbra = (zbra: Zbra) => setZbras([...(zbras ?? []), zbra]);
 
     return (
         <>
@@ -107,48 +80,7 @@ export default function Conversation() {
                         <AlwaysScrollToBottom />
                     </Flex>
 
-                    <Flex 
-                        w="100%"
-                        alignItems="flex-end"
-                        position="relative"
-                        overflowX="hidden"
-                        pl="4"
-                    >
-                        <TextareaAutosize
-                            placeholder="Zbraaaaaa..."
-                            borderRadius="md"
-                            marginRight="50px"
-                            py="3"
-                            paddingRight="5"
-                            border="1px solid #EEEEEE"
-                            value={inputMessage}
-                            _focusVisible={{ boxShadow: "none" }}
-                            borderLeftRadius="3xl"
-                            borderRightRadius="md"
-                            onKeyPress={(e: KeyboardEvent) => {
-                                if (e.key === "Enter" && !e.shiftKey) {
-                                    handleSendMessage();
-                                }
-                            }}
-                            onChange={(e) => setInputMessage(e.target.value)}
-                        />
-                        <Button
-                            position="absolute"
-                            py="6"
-                            right="0"
-                            bg="brand.900"
-                            color="white"
-                            borderLeftRadius="3xl"
-                            borderRightRadius="sm"
-                            _hover={{
-                                bg: "brand.500",
-                            }}
-                            onClick={handleSendMessage}
-                            isLoading={isLoading}
-                        >
-                            Send
-                        </Button>
-                    </Flex>
+                    <ConversationSendMessage friend={friend} addZbra={addZbra} />
                 </Grid>
             </Container>
         </>
