@@ -52,6 +52,14 @@ export default function useApi() {
         })
     }
 
+    const cancelFriendRequestApi = (friendRequest: FriendRequest) => {
+        return api.post(`/friend-requests/${friendRequest.id}/cancel`, {}, {
+            headers: {
+                Authorization: authHeader(),
+            }
+        })
+    }
+
     const createZbraApi = (friendId: string, message: string) => {
         return api.post('/zbras', {friendId, message}, {
             headers: {
@@ -111,7 +119,7 @@ export default function useApi() {
     return { 
         loginApi, registerApi,
         findUsersApi, getFriendApi, getFriendsApi,
-        sendFriendRequestApi, getFriendRequestsApi, acceptFriendRequestApi,
+        sendFriendRequestApi, getFriendRequestsApi, acceptFriendRequestApi, cancelFriendRequestApi,
         createZbraApi, getFeedsApi, getExchangedZbrasApi,
         getFriendRequestsNotificationsApi
     };

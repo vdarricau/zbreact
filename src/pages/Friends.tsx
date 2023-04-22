@@ -1,8 +1,8 @@
 import {
-    Box, Button, Container, Heading, SimpleGrid, useDisclosure, useToast
+    Box, Button, Center, Container, Flex, Heading, Text, useDisclosure, useToast
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { FaCross, FaTrash } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Friend from "../@ts/Friend";
 import FriendItem from "../components/FriendItem";
@@ -40,43 +40,43 @@ const Friends = () => {
     return (
         <>
             <Container>
-                <Box py="5">
+                <Center py="5">
                     <Link to={'/zbros/add'}>
                         <Button 
-                            w="100%" 
-                            h="70px"
-                            fontSize="2xl"
-                            colorScheme="orange"
-                            transition="all 0.5s ease-out"
+                            fontSize="md"
+                            variant="gradient"
+                            px="10"
                         >
-                            FIND ZBROS
+                            FIND NEW ZBROS
                         </Button>
                     </Link>
-                </Box>
+                </Center>
                 <Box py={5}>
-                    { friends.length !== 0 ? <>
-                        <Heading as='h1' size='lg' marginBottom="3">
-                            Zbros ({friends.length})
-                        </Heading>
+                    <Heading as='h1' size='sm' marginBottom="3" display="flex">
+                        Zbros <Text fontWeight="normal">({friends.length})</Text>
+                    </Heading>
+                    { friends.length !== 0 ?
                         <Box>
                             { friends.map((friend) => {
                                 return (
                                     <FriendItem friend={friend} key={friend.id}>
-                                        <Button p="0" borderRadius="50" fontWeight="bold" onClick={(e) => {
-                                            e.stopPropagation();
-                                            alert('cannot do that yet bro');
-                                        }}>
-                                            <FaTrash />
-                                        </Button>
+                                        <Flex py="3">
+                                            <a onClick={(e) => {
+                                                e.preventDefault();
+                                                alert("cannot do that yet");
+                                            }}>
+                                                <FaTimes color="#FC4545"  size="18" />
+                                            </a>
+                                        </Flex>
                                     </FriendItem>
                                 )
                             })}
                         </Box>
-                    </> : <>
+                    :
                         <Heading as='h3' size='2xl' marginBottom="3">
                             No zbros yet!
                         </Heading>
-                    </> }
+                    }
                 </Box>
 
                 <SendZbraModal friend={friend} isOpen={isOpen} onClose={onClose} onOpen={onOpen} />

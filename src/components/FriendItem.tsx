@@ -1,11 +1,8 @@
 import { Avatar, Box, Stack } from "@chakra-ui/react";
 import { ReactNode } from 'react';
-import { useNavigate } from "react-router-dom";
 import Friend from "../@ts/Friend";
 
 const FriendItem = ({ children, friend }: { children: ReactNode, friend: Friend }) => {
-    const navigate = useNavigate();
-
     return (
         <Stack 
             direction="row"
@@ -18,7 +15,6 @@ const FriendItem = ({ children, friend }: { children: ReactNode, friend: Friend 
             mb="4"
             border="1px solid"
             borderColor="brand.900"
-            onClick={() => navigate(`/zbros/${friend.id}`)} /* @TODO handle that better + prevent it if not friend yet!! */
         >
             <Avatar name={friend.username} src={friend.avatar} size="sm" />
 

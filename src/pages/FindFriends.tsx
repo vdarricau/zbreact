@@ -1,8 +1,11 @@
-import { Box, Button, Container, Heading, Input, useDisclosure, useToast } from "@chakra-ui/react";
+import { Box, Button, Container, Input, InputGroup, InputRightElement, useDisclosure, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useAuthUser } from "react-auth-kit";
+import { FaSearch } from 'react-icons/fa';
 import Friend from "../@ts/Friend";
 import FriendRequest from "../@ts/FriendRequest";
+import User from "../@ts/User";
+import ShareUser from "../components/Friend/ShareUser";
 import FriendItem from "../components/FriendItem";
 import PendingFriendRequestsComponent from "../components/PendingFriendRequestsComponent";
 import SendZbraModal from "../components/SendZbraModal";
@@ -15,6 +18,87 @@ interface UserFind {
     isFriend: boolean
 }
 
+export default function FindFriends() {
+    const user = useAuthUser()() as User;
+
+    const [search, setSearch] = useState('');
+    const [refresh, setRefresh] = useState(0);
+    const [users, setUsers] = useState<Array<UserFind>>([]);
+    const { findUsersApi } = useApi();
+
+    // Send Zbra modal
+    const [friend, setFriend] = useState<Friend|null>(null);
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const openSendZbraModal = (friend: Friend) => {
+        setFriend(friend);
+        onOpen();
+    }
+    // End Send Zbra modal
+    
+    useEffect(() => {
+        handleChange();
+    }, [search, refresh]);
+
+    const handleChange = async () => {
+        try {
+            const response = await findUsersApi(search);
+
+            setUsers(response.data);
+        } catch (e: unknown) {
+
+        }
+    }
+    
+    return (
+        <>
+            <Box py={5} bg="brand.900" borderBottomLeftRadius="3xl" borderBottomRightRadius="3xl">
+                <Container px="8">
+                    <Box>
+                        <InputGroup pb="3">
+                            <Input
+                                id="search"
+                                name="search"
+                                type="text"
+                                placeholder="Look for a new zbro..."
+                                borderRadius="full"
+                                h="50px"
+                                bg="white"
+                                _placeholder={{color: "brand.900"}}
+                                value={search}
+                                onChange={e => setSearch(e.target.value)}
+                            />
+                            <InputRightElement top="5px" right="5px" color="brand.900">
+                                <FaSearch />
+                            </InputRightElement>
+                        </InputGroup>
+    
+                        <ShareUser user={user} />
+                    </Box>
+                    { users.length !== 0 ?
+                        <Box py="5">
+                            { users.map((userFind) => {
+                                return (
+                                    <FriendItem friend={userFind.user} key={userFind.id}>
+                                        <ButtonFindFriend userFind={userFind} openSendZbraModal={openSendZbraModal} refresh={refresh} setRefresh={setRefresh} />
+                                    </FriendItem>
+                                )
+                            })}
+                        </Box>
+                    : null }
+                </Container>
+
+            </Box>
+            <Container px="8">
+                <PendingFriendRequestsComponent refresh={refresh} setRefresh={setRefresh} />
+            </Container>
+
+            <SendZbraModal friend={friend} isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
+        </>
+    )
+}
+
+/* TODO change them buttons */
 const ButtonFindFriend = (
     { userFind, openSendZbraModal, refresh, setRefresh }: 
     { userFind: UserFind, openSendZbraModal: (friend: Friend) => void, refresh: number, setRefresh: (refresh: number) => void }
@@ -89,7 +173,7 @@ const ButtonFindFriend = (
                 e.stopPropagation();
                 openSendZbraModal(userFind.user);
             }}>
-                Send Zbra
+                Zbra
             </Button>
         )
     }
@@ -99,72 +183,5 @@ const ButtonFindFriend = (
             e.stopPropagation();
             sendFriendRequest(userFind);
         }}>Send Zbro request</Button>
-    )
-}
-
-export default function FindFriends() {
-    const [search, setSearch] = useState('');
-    const [refresh, setRefresh] = useState(0);
-    const [users, setUsers] = useState<Array<UserFind>>([]);
-    const { findUsersApi } = useApi();
-
-    // Send Zbra modal
-    const [friend, setFriend] = useState<Friend|null>(null);
-    const { isOpen, onOpen, onClose } = useDisclosure();
-
-    const openSendZbraModal = (friend: Friend) => {
-        setFriend(friend);
-        onOpen();
-    }
-    // End Send Zbra modal
-    
-    useEffect(() => {
-        handleChange();
-    }, [search, refresh]);
-
-    const handleChange = async () => {
-        try {
-            const response = await findUsersApi(search);
-
-            setUsers(response.data);
-        } catch (e: unknown) {
-
-        }
-    }
-    
-    return (
-        <>
-            <Container>
-                <PendingFriendRequestsComponent refresh={refresh} setRefresh={setRefresh} />
-                <Box py={5}>
-                    <Heading as='h1' size='2xl' marginBottom="3">
-                        Add Zbro
-                    </Heading>
-                    <Box>
-                        <Input
-                            id="search"
-                            name="search"
-                            type="text"
-                            placeholder="Start typing to find some new zbros!"
-                            value={search}
-                            onChange={e => setSearch(e.target.value)}
-                        />
-                    </Box>
-                </Box>
-                { users.length !== 0 ?
-                    <Box py="5">
-                        { users.map((userFind) => {
-                            return (
-                                <FriendItem friend={userFind.user} key={userFind.id}>
-                                    <ButtonFindFriend userFind={userFind} openSendZbraModal={openSendZbraModal} refresh={refresh} setRefresh={setRefresh} />
-                                </FriendItem>
-                            )
-                        })}
-                    </Box>
-                : null }
-
-                <SendZbraModal friend={friend} isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
-            </Container>
-        </>
     )
 }

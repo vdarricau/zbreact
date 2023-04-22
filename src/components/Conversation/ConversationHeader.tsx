@@ -10,6 +10,7 @@ export default function ConversationHeader({ friend }: {friend: Friend|null}) {
         <Box
             py="3"
             borderBottom="1px solid #EEEEEE"
+            position="relative"
         >
             <Skeleton w="80%" m="auto" isLoaded={null !== friend}>
                 <Center>
