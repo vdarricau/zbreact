@@ -54,12 +54,10 @@ const Feed = () => {
                                 { feeds.length ?
                                     feeds.map((feed) => {
                                         return (
-                                            <>
-                                                <FeedItem
-                                                    feed={feed}
-                                                    key={feed.id}
-                                                />
-                                            </>
+                                            <FeedItem
+                                                feed={feed}
+                                                key={feed.id}
+                                            />
                                         );
                                     })
                                 : (

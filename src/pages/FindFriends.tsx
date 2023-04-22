@@ -1,7 +1,7 @@
-import { Box, Button, Container, Input, InputGroup, InputRightElement, useDisclosure, useToast } from "@chakra-ui/react";
+import { Box, Button, Center, Container, Heading, Input, InputGroup, InputRightElement, Text, useDisclosure, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useAuthUser } from "react-auth-kit";
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch, FaUserPlus } from 'react-icons/fa';
 import Friend from "../@ts/Friend";
 import FriendRequest from "../@ts/FriendRequest";
 import User from "../@ts/User";
@@ -75,22 +75,32 @@ export default function FindFriends() {
     
                         <ShareUser user={user} />
                     </Box>
-                    { users.length !== 0 ?
-                        <Box py="5">
-                            { users.map((userFind) => {
+                </Container>
+
+            </Box>
+            <Container px="8">
+                { search !== '' ? 
+                    <Box py="5">
+                        <Heading as='h1' size='sm' marginBottom="3" display="flex">
+                            Results <Text fontWeight="normal">({users.length})</Text>
+                        </Heading>
+                        {(users.length !== 0 ?
+                            users.map((userFind) => {
                                 return (
                                     <FriendItem friend={userFind.user} key={userFind.id}>
                                         <ButtonFindFriend userFind={userFind} openSendZbraModal={openSendZbraModal} refresh={refresh} setRefresh={setRefresh} />
                                     </FriendItem>
                                 )
-                            })}
-                        </Box>
-                    : null }
-                </Container>
+                            })
+                        :
+                            <Center py="5">
+                                No results found
+                            </Center>
+                        )}
+                    </Box>
 
-            </Box>
-            <Container px="8">
-                <PendingFriendRequestsComponent refresh={refresh} setRefresh={setRefresh} />
+                    : <PendingFriendRequestsComponent refresh={refresh} setRefresh={setRefresh} />
+                }
             </Container>
 
             <SendZbraModal friend={friend} isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
@@ -154,7 +164,7 @@ const ButtonFindFriend = (
                 <Button disabled onClick={(e) => {
                     e.stopPropagation();
                 }}>
-                    Zbro request sent
+                    Sent
                 </Button>
             )
         }
@@ -179,9 +189,11 @@ const ButtonFindFriend = (
     }
 
     return (
-        <Button borderRadius="50" fontWeight="bold" onClick={(e) => {
-            e.stopPropagation();
+        <a style={{ marginRight: ".5rem" }} onClick={(e) => {
+            e.preventDefault();
             sendFriendRequest(userFind);
-        }}>Send Zbro request</Button>
+        }}>
+            <FaUserPlus size="18" />
+        </a>
     )
 }

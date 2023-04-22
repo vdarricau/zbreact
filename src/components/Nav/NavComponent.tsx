@@ -4,7 +4,7 @@ import {
   MenuButton, MenuDivider, MenuItem, MenuList, Stack,
   useColorMode, useColorModeValue
 } from '@chakra-ui/react';
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuthUser, useIsAuthenticated } from 'react-auth-kit';
 import { FaUserPlus } from 'react-icons/fa';
 import {
@@ -28,7 +28,7 @@ const NavUser = ({ isAuthenticated, user }: { isAuthenticated: boolean, user: Us
 
   useEffect(() => {
     if (isAuthenticated) {
-      // setInterval(getFriendRequestsNotifications, 20000); /* @TODO broadcast it, use websocket */
+      getFriendRequestsNotifications(); /* @TODO broadcast it, use websocket */
     }
   }, [isAuthenticated]);
 

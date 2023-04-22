@@ -1,4 +1,4 @@
-import { Avatar, Box, Stack } from "@chakra-ui/react";
+import { Avatar, Box, Flex, Stack } from "@chakra-ui/react";
 import { ReactNode } from 'react';
 import Friend from "../@ts/Friend";
 
@@ -15,6 +15,7 @@ const FriendItem = ({ children, friend }: { children: ReactNode, friend: Friend 
             mb="4"
             border="1px solid"
             borderColor="brand.900"
+            h="3.125rem"
         >
             <Avatar name={friend.username} src={friend.avatar} size="sm" />
 
@@ -24,9 +25,9 @@ const FriendItem = ({ children, friend }: { children: ReactNode, friend: Friend 
                 </Box>
             </Box>
 
-            <Box px="1" py="1">
+            <Flex px="1" py="1">
                 {children}
-            </Box>
+            </Flex>
         </Stack>
     )
 }
