@@ -1,10 +1,16 @@
 import { Avatar, Box, Flex, Stack } from "@chakra-ui/react";
-import { ReactNode } from 'react';
-import Friend from "../@ts/Friend";
+import { ReactNode } from "react";
+import Friend from "../../@ts/Friend";
 
-const FriendItem = ({ children, friend }: { children: ReactNode, friend: Friend }) => {
+const FriendLineItem = ({
+    children,
+    friend,
+}: {
+    children: ReactNode;
+    friend: Friend;
+}) => {
     return (
-        <Stack 
+        <Stack
             direction="row"
             alignItems="center"
             justifyContent="space-between"
@@ -20,7 +26,7 @@ const FriendItem = ({ children, friend }: { children: ReactNode, friend: Friend 
             <Avatar name={friend.username} src={friend.avatar} size="sm" />
 
             <Box p="1" flex="auto">
-                <Box display='flex' alignItems='baseline'>
+                <Box display="flex" alignItems="baseline">
                     {friend.username}
                 </Box>
             </Box>
@@ -29,7 +35,7 @@ const FriendItem = ({ children, friend }: { children: ReactNode, friend: Friend 
                 {children}
             </Flex>
         </Stack>
-    )
-}
+    );
+};
 
-export default FriendItem;
+export default FriendLineItem;

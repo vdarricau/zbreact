@@ -1,7 +1,20 @@
-import { Box, Button, Card, CardBody, Center, Container, Grid, Heading, HStack, Image } from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Card,
+    CardBody,
+    Center,
+    Container,
+    Grid,
+    Heading,
+    HStack,
+    Image,
+    Text,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { FaPaperPlane, FaPlane } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import TypeWriter from 'typewriter-effect';
+import TypeWriter from "typewriter-effect";
 import Feed from "../@ts/Feed";
 import zbraLogo from "../assets/images/zbra_logo_dark.png";
 import FeedItem from "../components/FeedItem";
@@ -21,7 +34,7 @@ const Feed = () => {
         } catch (error) {
             // @TODO deal with this later
         }
-    }
+    };
 
     useEffect(() => {
         getFeeds();
@@ -30,28 +43,66 @@ const Feed = () => {
     return (
         <>
             <Container h="100%">
-                <Grid 
-                    gridTemplateRows="auto 1fr auto"
-                    h="100%"
-                >
-                    <Heading py="8" fontSize="2xl">
-                        Feels like a good day to send a: <Box><TypeWriter options={{
-                            strings: ['zbracadabra.', 'zbracheotomy.', 'little message of zbrhope.'],
-                            autoStart: true,
-                            loop: true,
-                        }}/></Box>
-                    </Heading>
+                <Grid gridTemplateRows="auto 1fr auto" h="100%">
+                    <Box py="8">
+                        <Heading fontSize="2xl">
+                            Feels like a good day to send a&nbsp;
+                            <Box display="inline">
+                                <TypeWriter
+                                    options={{
+                                        strings: [
+                                            "zbracadabra.",
+                                            "zbracheotomy.",
+                                            "zprout.",
+                                        ],
+                                        autoStart: true,
+                                        loop: true,
+                                    }}
+                                />
+                            </Box>
+                        </Heading>
+                        <Link to={"/zbra/send"}>
+                            <Button
+                                w="85%"
+                                mx="auto"
+                                mt="5"
+                                display="block"
+                                position="relative"
+                                bg="brand.900"
+                                color="white"
+                                textAlign="left"
+                                fontSize="xl"
+                                fontWeight="bold"
+                                borderRadius="xl"
+                            >
+                                <Text>Send a ZBRA</Text>
+                                <Box
+                                    position="absolute"
+                                    right="5"
+                                    top="50%"
+                                    transform="translateY(-50%)"
+                                >
+                                    <FaPaperPlane />
+                                </Box>
+                            </Button>
+                        </Link>
+                    </Box>
                     <Card
                         textAlign="center"
-                        bg="white" 
+                        bg="white"
                         boxShadow="3px 3px 7px 0px"
                         color="brand.900"
                         borderRadius="3xl"
                         overflow="auto"
                     >
                         <CardBody>
-                            <Grid templateColumns={{base: "repeat(3, 33%)", sm: "repeat(4, 25%)"}}>
-                                { feeds.length ?
+                            <Grid
+                                templateColumns={{
+                                    base: "repeat(3, 33%)",
+                                    sm: "repeat(4, 25%)",
+                                }}
+                            >
+                                {feeds.length ? (
                                     feeds.map((feed) => {
                                         return (
                                             <FeedItem
@@ -60,13 +111,13 @@ const Feed = () => {
                                             />
                                         );
                                     })
-                                : (
+                                ) : (
                                     <FeedItem feed={null} />
                                 )}
                             </Grid>
                         </CardBody>
                     </Card>
-                    <Center 
+                    <Center
                         py="10"
                         position="relative"
                         _before={{
@@ -75,25 +126,30 @@ const Feed = () => {
                             width: "100%",
                             opacity: "0.5",
                             height: "10rem",
-                            bgImage: "linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,0));",
+                            bgImage:
+                                "linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,0));",
                             top: "0",
                             pointerEvents: "none",
                             transform: "translateY(-100%)",
-                            borderRadius: "full"
+                            borderRadius: "full",
                         }}
                     >
                         {/* TODO rendre le logo un peu organique, qu'il bouge de temps en temps, et quand tu cliques dessus ça fait grandir la liste de zbro au dessus */}
-                        <Link to={'/zbra/send'}>
-                            <Button 
+                        <Link to={"/zbra/send"}>
+                            <Button
                                 h="70px"
                                 w="70px"
                                 p="0"
                                 borderRadius="full"
                                 transition="all 0.1s ease-out"
                                 bgColor="brand.900"
-                                _hover={{bgColor: "brand.500"}}
+                                _hover={{ bgColor: "brand.500" }}
                             >
-                                <Image src={zbraLogo} alt="Zbra logo" maxW="100%" />
+                                <Image
+                                    src={zbraLogo}
+                                    alt="Zbra logo"
+                                    maxW="100%"
+                                />
                             </Button>
                         </Link>
                     </Center>
@@ -101,6 +157,6 @@ const Feed = () => {
             </Container>
         </>
     );
-}
+};
 
 export default Feed;
