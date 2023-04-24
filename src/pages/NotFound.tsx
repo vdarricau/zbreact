@@ -8,24 +8,25 @@ export default function NotFound() {
                 display="inline-block"
                 as="h2"
                 size="2xl"
-                bgGradient="linear(to-r, orange.400, orange.600)"
+                bgGradient="linear(to-r, brand.400, brand.600)"
                 backgroundClip="text"
             >
-            404
+                404
             </Heading>
             <Text fontSize="18px" mt={3} mb={2}>
                 Page Not Found
             </Text>
-        
-            <Link to={'/'}>
+
+            <Link to={"/"}>
                 <Button
                     colorScheme="orange"
-                    bgGradient="linear(to-r, orange.400, orange.500, orange.600)"
+                    bgGradient="linear(to-r, brand.400, brand.600)"
                     color="white"
-                    variant="solid">
+                    variant="solid"
+                >
                     Go back to your Zbras
                 </Button>
             </Link>
         </Box>
-      );
+    );
 }
