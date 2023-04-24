@@ -4,7 +4,7 @@ import Zbra from "./Zbra";
 export default interface Feed {
     id: string;
     friend: Friend;
-    zbra: Zbra;
+    zbra: Zbra | null;
     countUnreadZbras: number;
     updatedAt: string;
 }

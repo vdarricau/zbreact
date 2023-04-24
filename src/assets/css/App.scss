@@ -5,9 +5,10 @@ $lightPurple: #9f85ff;
 $purple: #8768f7;
 $darkPurple: #6850bf;
 
-.form-auth input.chakra-input {
+input.edy-input {
     background-color: #eef7ff;
     border-radius: 2px;
+    height: 50px;
 
     &::placeholder {
         color: $darkPurple;

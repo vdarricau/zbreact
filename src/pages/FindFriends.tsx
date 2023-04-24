@@ -20,7 +20,7 @@ import User from "../@ts/User";
 import ShareUser from "../components/Friend/ShareUser";
 import FriendLineItem from "../components/Friend/FriendLineItem";
 import PendingFriendRequestsComponent from "../components/PendingFriendRequestsComponent";
-import SendZbraModal from "../components/SendZbraModal";
+import SendZbraModal from "../components/SendZbra/SendZbraModal";
 import useApi from "../hooks/useApi";
 
 interface UserFind {

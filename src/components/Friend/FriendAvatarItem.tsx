@@ -9,7 +9,7 @@ export default function FriendAvatarItem({
     children?: React.ReactNode | React.ReactNode[] | undefined;
 }) {
     return (
-        <Box py="3" overflow="hidden">
+        <Box py="3" overflow="hidden" textAlign="center">
             <Avatar name={friend.username} src={friend.avatar} size="lg">
                 {children}
             </Avatar>

@@ -10,6 +10,7 @@ import {
     HStack,
     Image,
     Text,
+    useDisclosure,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { FaPaperPlane, FaPlane } from "react-icons/fa";
@@ -18,11 +19,12 @@ import TypeWriter from "typewriter-effect";
 import Feed from "../@ts/Feed";
 import zbraLogo from "../assets/images/zbra_logo_dark.png";
 import FeedItem from "../components/FeedItem";
+import SendZbraModal from "../components/SendZbra/SendZbraModal";
 import useApi from "../hooks/useApi";
 
 const Feed = () => {
     /* @TODO quand on a pas de Zbro, on est redirigé vers la page d'ajout de Zbro */
-
+    const sendZbraModal = useDisclosure();
     const [feeds, setFeeds] = useState<Array<Feed>>([]);
     const { getFeedsApi } = useApi();
 
@@ -61,31 +63,30 @@ const Feed = () => {
                                 />
                             </Box>
                         </Heading>
-                        <Link to={"/zbra/send"}>
-                            <Button
-                                w="85%"
-                                mx="auto"
-                                mt="5"
-                                display="block"
-                                position="relative"
-                                bg="brand.900"
-                                color="white"
-                                textAlign="left"
-                                fontSize="xl"
-                                fontWeight="bold"
-                                borderRadius="xl"
+                        <Button
+                            w="85%"
+                            mx="auto"
+                            mt="5"
+                            display="block"
+                            position="relative"
+                            bg="brand.900"
+                            color="white"
+                            textAlign="left"
+                            fontSize="xl"
+                            fontWeight="bold"
+                            borderRadius="xl"
+                            onClick={sendZbraModal.onOpen}
+                        >
+                            <Text>Send a ZBRA</Text>
+                            <Box
+                                position="absolute"
+                                right="5"
+                                top="50%"
+                                transform="translateY(-50%)"
                             >
-                                <Text>Send a ZBRA</Text>
-                                <Box
-                                    position="absolute"
-                                    right="5"
-                                    top="50%"
-                                    transform="translateY(-50%)"
-                                >
-                                    <FaPaperPlane />
-                                </Box>
-                            </Button>
-                        </Link>
+                                <FaPaperPlane />
+                            </Box>
+                        </Button>
                     </Box>
                     <Card
                         textAlign="center"
@@ -135,26 +136,26 @@ const Feed = () => {
                         }}
                     >
                         {/* TODO rendre le logo un peu organique, qu'il bouge de temps en temps, et quand tu cliques dessus ça fait grandir la liste de zbro au dessus */}
-                        <Link to={"/zbra/send"}>
-                            <Button
-                                h="70px"
-                                w="70px"
-                                p="0"
-                                borderRadius="full"
-                                transition="all 0.1s ease-out"
-                                bgColor="brand.900"
-                                _hover={{ bgColor: "brand.500" }}
-                            >
-                                <Image
-                                    src={zbraLogo}
-                                    alt="Zbra logo"
-                                    maxW="100%"
-                                />
-                            </Button>
-                        </Link>
+                        <Button
+                            h="70px"
+                            w="70px"
+                            p="0"
+                            borderRadius="full"
+                            transition="all 0.1s ease-out"
+                            bgColor="brand.900"
+                            _hover={{ bgColor: "brand.500" }}
+                            onClick={sendZbraModal.onOpen}
+                        >
+                            <Image src={zbraLogo} alt="Zbra logo" maxW="100%" />
+                        </Button>
                     </Center>
                 </Grid>
             </Container>
+
+            <SendZbraModal
+                isOpen={sendZbraModal.isOpen}
+                onClose={sendZbraModal.onClose}
+            />
         </>
     );
 };
