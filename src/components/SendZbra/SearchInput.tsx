@@ -20,7 +20,7 @@ export default function SearchInput({
                 onChange={(e) => setSearch(e.target.value)}
             />
             <InputRightElement h="100%">
-                <FaSearch size="18" />
+                <FaSearch size="25" />
             </InputRightElement>
         </InputGroup>
     );
