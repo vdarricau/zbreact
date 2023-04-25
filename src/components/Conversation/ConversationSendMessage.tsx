@@ -2,33 +2,37 @@ import { Button, Flex } from "@chakra-ui/react";
 import { KeyboardEvent, useState } from "react";
 import useApi from "../../hooks/useApi";
 import TextareaAutosize from "../TextareaAutosize";
-import Zbra from "../../@ts/Zbra";
+import Message from "../../@ts/Message";
 import Friend from "../../@ts/Friend";
 
-export default function ConversationSendMessage({ friend, addZbra }: { friend: Friend|null, addZbra: (zbra: Zbra) => void }) {
-    const [ isLoading, setIsLoading ] = useState<boolean>(false);
-    const [inputMessage, setInputMessage] = useState('');
-    const { createZbraApi } = useApi();
+export default function ConversationSendMessage({
+    friend,
+    addMessage,
+}: {
+    friend: Friend | null;
+    addMessage: (message: Message) => void;
+}) {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [inputMessage, setInputMessage] = useState("");
+    const { sendMessageApi } = useApi();
 
     const handleSendMessage = async () => {
         if (!inputMessage.trim().length || null === friend) {
             return;
         }
-    
+
         try {
             setIsLoading(true);
-            const response = await createZbraApi(friend.id, inputMessage);
+            const response = await sendMessageApi(friend.id, inputMessage);
 
-            addZbra(response.data);
-            setInputMessage('');
+            addMessage(response.data);
+            setInputMessage("");
             setIsLoading(false);
-        } catch(error) {
-
-        }
+        } catch (error) {}
     };
 
     return (
-        <Flex 
+        <Flex
             w="100%"
             alignItems="flex-end"
             position="relative"
@@ -70,5 +74,5 @@ export default function ConversationSendMessage({ friend, addZbra }: { friend: F
                 Send
             </Button>
         </Flex>
-    )
+    );
 }

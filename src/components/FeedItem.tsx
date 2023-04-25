@@ -22,7 +22,7 @@ const FeedItem = ({ feed }: { feed: Feed | null }) => {
     return (
         <Link to={`/zbros/${feed.friend.id}`}>
             <FriendAvatarItem friend={feed.friend}>
-                {0 !== feed.countUnreadZbras && (
+                {0 !== feed.countUnreadMessages && (
                     <AvatarBadge
                         bgColor="brand.900"
                         placement="top-end"
@@ -35,7 +35,7 @@ const FeedItem = ({ feed }: { feed: Feed | null }) => {
                         w="8"
                         h="8"
                     >
-                        {feed.countUnreadZbras}
+                        {feed.countUnreadMessages}
                     </AvatarBadge>
                 )}
             </FriendAvatarItem>

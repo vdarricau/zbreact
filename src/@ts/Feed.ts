@@ -1,10 +1,10 @@
 import Friend from "./Friend";
-import Zbra from "./Zbra";
+import Message from "./Message";
 
 export default interface Feed {
     id: string;
     friend: Friend;
-    zbra: Zbra | null;
-    countUnreadZbras: number;
+    message: Message | null;
+    countUnreadMessages: number;
     updatedAt: string;
 }
