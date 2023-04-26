@@ -28,7 +28,7 @@ const listenEvent = (
         createSocketConnection(authHeader());
 
         return listen(callBack, channel, event);
-    }, []);
+    });
 };
 
 export default function useSocket() {

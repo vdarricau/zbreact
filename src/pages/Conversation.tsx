@@ -28,7 +28,7 @@ export default function Conversation() {
     }, []);
 
     listenMessageConversation(friendId, (payload) => {
-        setMessages([...(messages ?? []), payload.data]);
+        addMessage(payload.data);
     });
 
     const getFriend = async () => {
@@ -45,8 +45,13 @@ export default function Conversation() {
         } catch (error) {}
     };
 
-    const addMessage = (message: Message) =>
-        setMessages([...(messages ?? []), message]);
+    const addMessage = (message: Message) => {
+        if (messages === null) {
+            return;
+        }
+
+        setMessages([...messages, message]);
+    };
 
     return (
         <>

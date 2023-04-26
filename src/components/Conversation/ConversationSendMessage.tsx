@@ -53,6 +53,7 @@ export default function ConversationSendMessage({
                 onKeyPress={(e: KeyboardEvent) => {
                     if (e.key === "Enter" && !e.shiftKey) {
                         handleSendMessage();
+                        e.preventDefault();
                     }
                 }}
                 onChange={(e) => setInputMessage(e.target.value)}

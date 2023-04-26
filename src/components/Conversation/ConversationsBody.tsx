@@ -76,9 +76,10 @@ function Message({
                 maxW="350px"
                 my="1"
                 p="3"
-                wordBreak="break-all"
             >
-                <Text whiteSpace="pre-line">{message}</Text>
+                <Text whiteSpace="pre-line" overflowX="auto">
+                    {message}
+                </Text>
             </Flex>
         </Flex>
     );
