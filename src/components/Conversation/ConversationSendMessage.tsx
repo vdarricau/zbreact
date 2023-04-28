@@ -4,12 +4,13 @@ import useApi from "../../hooks/useApi";
 import TextareaAutosize from "../TextareaAutosize";
 import Message from "../../@ts/Message";
 import Friend from "../../@ts/Friend";
+import Conversation from "../../@ts/Conversation";
 
 export default function ConversationSendMessage({
-    friend,
+    conversation,
     addMessage,
 }: {
-    friend: Friend | null;
+    conversation: Conversation | null;
     addMessage: (message: Message) => void;
 }) {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -17,13 +18,16 @@ export default function ConversationSendMessage({
     const { sendMessageApi } = useApi();
 
     const handleSendMessage = async () => {
-        if (!inputMessage.trim().length || null === friend) {
+        if (!inputMessage.trim().length || null === conversation) {
             return;
         }
 
         try {
             setIsLoading(true);
-            const response = await sendMessageApi(friend.id, inputMessage);
+            const response = await sendMessageApi(
+                conversation.id,
+                inputMessage
+            );
 
             addMessage(response.data);
             setInputMessage("");

@@ -34,18 +34,18 @@ const listenEvent = (
 export default function useSocket() {
     const user = useAuthUser()() as User | null;
 
-    const listenMessageConversation = (
-        friendId: string,
+    const listenMessagesConversation = (
+        conversationId: string,
         callBack: (payload: any) => void
     ) => {
         listenEvent(
-            `messages.${friendId}.${user?.id}`,
+            `conversations.${conversationId}`,
             "MessageSentEvent",
             callBack
         );
     };
 
     return {
-        listenMessageConversation,
+        listenMessagesConversation,
     };
 }

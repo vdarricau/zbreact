@@ -1,6 +1,6 @@
 import { Grid, Heading, ModalBody } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import Feed from "../../@ts/Feed";
+import Conversation from "../../@ts/Conversation";
 import Friend from "../../@ts/Friend";
 import FriendAvatarItem from "../../components/Friend/FriendAvatarItem";
 import useApi from "../../hooks/useApi";
@@ -11,19 +11,19 @@ export default function PickFriend({
 }: {
     setFriend: (friend: Friend) => void;
 }) {
-    const [feeds, setFeeds] = useState<Array<Feed>>([]);
+    const [conversations, setConversations] = useState<Array<Conversation>>([]);
     const [search, setSearch] = useState<string>("");
-    const { getFeedsApi } = useApi();
+    const { getConversationsApi } = useApi();
 
     useEffect(() => {
-        getFeeds();
+        getConversations();
     }, []);
 
-    const getFeeds = async () => {
+    const getConversations = async () => {
         try {
-            const response = await getFeedsApi();
+            const response = await getConversationsApi();
 
-            setFeeds(response.data);
+            setConversations(response.data);
         } catch (error) {
             // @TODO deal with this later
         }
@@ -43,20 +43,22 @@ export default function PickFriend({
                         sm: "repeat(4, 25%)",
                     }}
                 >
-                    {feeds
-                        .filter((feed) => feed.friend.username.includes(search))
-                        .map((feed) => {
+                    {conversations
+                        .filter((conversation) =>
+                            conversation.friend.username.includes(search)
+                        )
+                        .map((conversation) => {
                             return (
                                 <a
-                                    key={feed.friend.id}
+                                    key={conversation.friend.id}
                                     onClick={(e) => {
                                         e.preventDefault;
-                                        setFriend(feed.friend);
+                                        setFriend(conversation.friend);
                                     }}
                                 >
                                     <FriendAvatarItem
-                                        friend={feed.friend}
-                                        key={feed.friend.id}
+                                        friend={conversation.friend}
+                                        key={conversation.friend.id}
                                     />
                                 </a>
                             );

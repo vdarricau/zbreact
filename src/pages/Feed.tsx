@@ -16,30 +16,30 @@ import { useEffect, useState } from "react";
 import { FaPaperPlane, FaPlane } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import TypeWriter from "typewriter-effect";
-import Feed from "../@ts/Feed";
+import Conversation from "../@ts/Conversation";
 import zbraLogo from "../assets/images/zbra_logo_dark.png";
-import FeedItem from "../components/FeedItem";
+import ConversationItem from "../components/Conversation/ConversationItem";
 import SendZbraModal from "../components/SendZbra/SendZbraModal";
 import useApi from "../hooks/useApi";
 
 const Feed = () => {
     /* @TODO quand on a pas de Zbro, on est redirigé vers la page d'ajout de Zbro */
     const sendZbraModal = useDisclosure();
-    const [feeds, setFeeds] = useState<Array<Feed>>([]);
-    const { getFeedsApi } = useApi();
+    const [conversations, setConversations] = useState<Array<Conversation>>([]);
+    const { getConversationsApi } = useApi();
 
-    const getFeeds = async () => {
+    const getConversations = async () => {
         try {
-            const response = await getFeedsApi();
+            const response = await getConversationsApi();
 
-            setFeeds(response.data);
+            setConversations(response.data);
         } catch (error) {
             // @TODO deal with this later
         }
     };
 
     useEffect(() => {
-        getFeeds();
+        getConversations();
     }, []);
 
     return (
@@ -103,17 +103,17 @@ const Feed = () => {
                                     sm: "repeat(4, 25%)",
                                 }}
                             >
-                                {feeds.length ? (
-                                    feeds.map((feed) => {
+                                {conversations.length ? (
+                                    conversations.map((conversation) => {
                                         return (
-                                            <FeedItem
-                                                feed={feed}
-                                                key={feed.id}
+                                            <ConversationItem
+                                                conversation={conversation}
+                                                key={conversation.id}
                                             />
                                         );
                                     })
                                 ) : (
-                                    <FeedItem feed={null} />
+                                    <ConversationItem conversation={null} />
                                 )}
                             </Grid>
                         </CardBody>

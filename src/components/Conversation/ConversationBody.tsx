@@ -16,15 +16,22 @@ export default function ConversationBody({
     return (
         <>
             {messages.map((message) => {
-                if (message.receiver.id === friend?.id) {
+                if (message.sender.id === friend?.id) {
                     return (
                         <Message
                             key={message.id}
                             message={message.message}
-                            justify="flex-end"
-                            bg="brand.900"
-                            color="white"
-                        />
+                            justify="flex-start"
+                            bg="white"
+                            color="black"
+                            border="1px solid #EEEEEE"
+                        >
+                            <Avatar
+                                name={message.sender.username}
+                                src={message.sender.avatar}
+                                mr="2"
+                            />
+                        </Message>
                     );
                 }
 
@@ -32,17 +39,10 @@ export default function ConversationBody({
                     <Message
                         key={message.id}
                         message={message.message}
-                        justify="flex-start"
-                        bg="white"
-                        color="black"
-                        border="1px solid #EEEEEE"
-                    >
-                        <Avatar
-                            name={message.sender.username}
-                            src={message.sender.avatar}
-                            mr="2"
-                        />
-                    </Message>
+                        justify="flex-end"
+                        bg="brand.900"
+                        color="white"
+                    />
                 );
             })}
         </>

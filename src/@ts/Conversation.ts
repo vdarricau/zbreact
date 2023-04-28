@@ -1,10 +1,10 @@
 import Friend from "./Friend";
 import Message from "./Message";
 
-export default interface Feed {
+export default interface Conversation {
     id: string;
     friend: Friend;
-    message: Message | null;
+    messages: Message[];
     countUnreadMessages: number;
     updatedAt: string;
 }

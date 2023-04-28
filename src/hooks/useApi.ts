@@ -73,10 +73,10 @@ export default function useApi() {
         );
     };
 
-    const sendMessageApi = (friendId: string, message: string) => {
+    const sendMessageApi = (conversationId: string, message: string) => {
         return api.post(
-            "/messages",
-            { friendId, message },
+            `/conversations/${conversationId}/messages`,
+            { message },
             {
                 headers: {
                     Authorization: authHeader(),
@@ -85,8 +85,24 @@ export default function useApi() {
         );
     };
 
-    const getFeedsApi = () => {
-        return api.get("/feeds", {
+    const getConversationsApi = () => {
+        return api.get("/conversations", {
+            headers: {
+                Authorization: authHeader(),
+            },
+        });
+    };
+
+    const getConversationApi = (conversationId: string) => {
+        return api.get(`/conversations/${conversationId}`, {
+            headers: {
+                Authorization: authHeader(),
+            },
+        });
+    };
+
+    const getMessagesApi = (conversationId: string) => {
+        return api.get(`/conversations/${conversationId}/messages`, {
             headers: {
                 Authorization: authHeader(),
             },
@@ -95,14 +111,6 @@ export default function useApi() {
 
     const getFriendApi = (friendId: string) => {
         return api.get(`/friends/${friendId}`, {
-            headers: {
-                Authorization: authHeader(),
-            },
-        });
-    };
-
-    const getExchangedMessagesApi = (friendId: string) => {
-        return api.get(`/friends/${friendId}/messages`, {
             headers: {
                 Authorization: authHeader(),
             },
@@ -148,8 +156,9 @@ export default function useApi() {
         acceptFriendRequestApi,
         cancelFriendRequestApi,
         sendMessageApi,
-        getFeedsApi,
-        getExchangedMessagesApi,
+        getConversationsApi,
+        getConversationApi,
+        getMessagesApi,
         getFriendRequestsNotificationsApi,
     };
 }

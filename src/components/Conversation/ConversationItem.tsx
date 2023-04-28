@@ -1,12 +1,16 @@
 import { Avatar, AvatarBadge, Box } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import Feed from "../@ts/Feed";
-import FriendAvatarItem from "./Friend/FriendAvatarItem";
+import Conversation from "../../@ts/Conversation";
+import FriendAvatarItem from "../Friend/FriendAvatarItem";
 
-const FeedItem = ({ feed }: { feed: Feed | null }) => {
+const ConversationItem = ({
+    conversation,
+}: {
+    conversation: Conversation | null;
+}) => {
     /* @TODO implement websocket here for notification bubble */
 
-    if (feed === null) {
+    if (conversation === null) {
         return (
             <Link to="/zbros/add">
                 <Box py="3" overflow="hidden">
@@ -20,9 +24,9 @@ const FeedItem = ({ feed }: { feed: Feed | null }) => {
     }
 
     return (
-        <Link to={`/zbros/${feed.friend.id}`}>
-            <FriendAvatarItem friend={feed.friend}>
-                {0 !== feed.countUnreadMessages && (
+        <Link to={`/conversations/${conversation.id}`}>
+            <FriendAvatarItem friend={conversation.friend}>
+                {0 !== conversation.countUnreadMessages && (
                     <AvatarBadge
                         bgColor="brand.900"
                         placement="top-end"
@@ -35,7 +39,7 @@ const FeedItem = ({ feed }: { feed: Feed | null }) => {
                         w="8"
                         h="8"
                     >
-                        {feed.countUnreadMessages}
+                        {conversation.countUnreadMessages}
                     </AvatarBadge>
                 )}
             </FriendAvatarItem>
@@ -43,4 +47,4 @@ const FeedItem = ({ feed }: { feed: Feed | null }) => {
     );
 };
 
-export default FeedItem;
+export default ConversationItem;

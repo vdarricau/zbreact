@@ -10,7 +10,7 @@ const Logout = lazy(() => import("./pages/Logout"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Friends = lazy(() => import("./pages/Friends"));
 const FindFriends = lazy(() => import("./pages/FindFriends"));
-const Conversation = lazy(() => import("./pages/Conversation"));
+const Conversation = lazy(() => import("./pages/ConversationPage"));
 
 const AuthorizedRoute = ({ children }: { children: JSX.Element }) => {
     return (
@@ -86,6 +86,14 @@ const Body = () => {
                 element={
                     <AuthorizedRoute>
                         <FindFriends />
+                    </AuthorizedRoute>
+                }
+            />
+            <Route
+                path="/conversations/:conversationId"
+                element={
+                    <AuthorizedRoute>
+                        <Conversation />
                     </AuthorizedRoute>
                 }
             />
