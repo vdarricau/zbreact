@@ -2,5 +2,6 @@ export default interface Friend {
     id: string;
     username: string;
     name: string;
-    avatar?: string;
+    conversationId?: string;
+    avatar: string | null;
 }

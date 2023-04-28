@@ -31,7 +31,7 @@ export default function SendZbraModal({
         console.log(keywords);
         setFriend(null);
         setKeywords([]);
-        navigate(`/zbros/${friend?.id}`);
+        navigate(`/conversations/${friend?.conversationId}`);
         onClose();
     };
 
@@ -46,7 +46,7 @@ export default function SendZbraModal({
             isCentered
         >
             <ModalOverlay />
-            <ModalContent h="80vh" maxW="90%" borderRadius="3xl">
+            <ModalContent h="80vh" w="90%" maxW="500px" borderRadius="3xl">
                 <ModalCloseButton />
                 {null === friend ? (
                     <PickFriend setFriend={setFriend} />
