@@ -7,14 +7,12 @@ import {
     Container,
     Grid,
     Heading,
-    HStack,
     Image,
     Text,
     useDisclosure,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { FaPaperPlane, FaPlane } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaPaperPlane } from "react-icons/fa";
 import TypeWriter from "typewriter-effect";
 import Conversation from "../@ts/Conversation";
 import zbraLogo from "../assets/images/zbra_logo_dark.png";

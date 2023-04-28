@@ -3,5 +3,5 @@ export default interface Friend {
     username: string;
     name: string;
     conversationId?: string;
-    avatar: string | null;
+    avatar?: string;
 }
