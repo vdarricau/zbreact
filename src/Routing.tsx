@@ -7,6 +7,7 @@ const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
 const Logout = lazy(() => import("./pages/Logout"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Friends = lazy(() => import("./pages/Friends"));
 const FindFriends = lazy(() => import("./pages/FindFriends"));
@@ -20,7 +21,7 @@ const AuthorizedRoute = ({ children }: { children: JSX.Element }) => {
     );
 };
 
-const Body = () => {
+export default function Routing() {
     return (
         <Routes>
             {/* AUTH */}
@@ -45,6 +46,14 @@ const Body = () => {
                 element={
                     <Suspense fallback={<Loading />}>
                         <Logout />
+                    </Suspense>
+                }
+            />
+            <Route
+                path="/forgot-password"
+                element={
+                    <Suspense fallback={<Loading />}>
+                        <ForgotPassword />
                     </Suspense>
                 }
             />
@@ -107,5 +116,4 @@ const Body = () => {
             />
         </Routes>
     );
-};
-export default Body;
+}

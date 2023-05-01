@@ -1,14 +1,13 @@
 import { Container, Flex, Grid } from "@chakra-ui/react";
 import { memo, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import Friend from "../@ts/Friend";
+import Conversation from "../@ts/Conversation";
 import Message from "../@ts/Message";
-import ConversationHeader from "../components/Conversation/ConversationHeader";
 import ConversationBody from "../components/Conversation/ConversationBody";
+import ConversationHeader from "../components/Conversation/ConversationHeader";
 import ConversationSendMessage from "../components/Conversation/ConversationSendMessage";
 import useApi from "../hooks/useApi";
 import useSocket from "../hooks/useSocket";
-import Conversation from "../@ts/Conversation";
 
 const MemoHeader = memo(ConversationHeader);
 
