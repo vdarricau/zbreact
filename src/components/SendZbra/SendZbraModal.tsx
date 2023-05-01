@@ -8,6 +8,7 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Friend from "../../@ts/Friend";
+import useApi from "../../hooks/useApi";
 import FriendAvatarItem from "../Friend/FriendAvatarItem";
 import ChooseKeyword from "./ChooseKeyword";
 import PickFriend from "./PickFriend";
@@ -23,16 +24,26 @@ export default function SendZbraModal({
     const [friend, setFriend] = useState<Friend | null>(null);
     const [keywords, setKeywords] = useState<string[]>([]);
     const navigate = useNavigate();
+    const { sendZbraApi } = useApi();
 
     const sendZbra = async () => {
-        // @TODO implement in backend
         setIsLoading(true);
-        alert(`send zbra: mange moi le ${keywords.join(", ")} ici`);
-        console.log(keywords);
-        setFriend(null);
-        setKeywords([]);
-        navigate(`/conversations/${friend?.conversationId}`);
-        onClose();
+
+        if (
+            typeof friend?.conversationId === "undefined" ||
+            keywords.length === 0
+        ) {
+            return;
+        }
+
+        try {
+            await sendZbraApi(friend?.conversationId, keywords.join(", "));
+
+            setFriend(null);
+            setKeywords([]);
+            navigate(`/conversations/${friend?.conversationId}`);
+            onClose();
+        } catch (error) {}
     };
 
     return (

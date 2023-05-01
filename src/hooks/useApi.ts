@@ -85,6 +85,18 @@ export default function useApi() {
         );
     };
 
+    const sendZbraApi = (conversationId: string, keyword: string) => {
+        return api.post(
+            `/conversations/${conversationId}/zbras`,
+            { keyword },
+            {
+                headers: {
+                    Authorization: authHeader(),
+                },
+            }
+        );
+    };
+
     const getConversationsApi = () => {
         return api.get("/conversations", {
             headers: {
@@ -156,6 +168,7 @@ export default function useApi() {
         acceptFriendRequestApi,
         cancelFriendRequestApi,
         sendMessageApi,
+        sendZbraApi,
         getConversationsApi,
         getConversationApi,
         getMessagesApi,
